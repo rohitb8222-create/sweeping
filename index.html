@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today Sweeping Deployment Generator</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #27ae60;
+            --bg-color: #ecf0f1;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #bdc3c7;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .container {
+            background-color: var(--card-bg);
+            max-width: 600px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
+        
+        select, input[type="date"] {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+            background-color: #f9fbfd;
+        }
+        
+        select:focus, input[type="date"]:focus {
+            border-color: var(--secondary-color);
+        }
+        
+        .routes-group {
+            background-color: #f9fbfd;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            max-height: 250px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .routes-group h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-top: 4px;
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--secondary-color);
+            cursor: pointer;
+        }
+        
+        .checkbox-item label {
+            font-weight: normal;
+            color: var(--text-color);
+            cursor: pointer;
+            line-height: 1.4;
+            margin-bottom: 0;
+        }
+        
+        .message-box {
+            margin-top: 25px;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 250px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 0.95rem;
+            resize: vertical;
+            background-color: #fdfdfd;
+            line-height: 1.5;
+            outline: none;
+        }
+        
+        textarea:focus {
+            border-color: var(--secondary-color);
+        }
+        
+        button {
+            width: 100%;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #219653;
+        }
+        
+        .copy-feedback {
+            text-align: center;
+            color: var(--secondary-color);
+            margin-top: 10px;
+            font-weight: bold;
+            display: none;
+            font-size: 0.9rem;
+        }
+        
+        /* Custom Scrollbar */
+        .routes-group::-webkit-scrollbar {
+            width: 6px;
+        }
+        .routes-group::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        .routes-group::-webkit-scrollbar-thumb {
+            background: #bdc3c7; 
+            border-radius: 3px;
+        }
+        .routes-group::-webkit-scrollbar-thumb:hover {
+            background: #95a5a6; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🧹 Today Sweeping Deployment</h2>
+    
+    <div class="form-group">
+        <label for="dateSelect">Tarik (Date):</label>
+        <input type="date" id="dateSelect">
+    </div>
+    
+    <div class="form-group">
+        <label for="wardSelect">Ward Nivad (Select Ward):</label>
+        <select id="wardSelect">
+            <option value="">-- Ward Select Kara --</option>
+        </select>
+    </div>
+    
+    <div class="form-group" id="unitGroup" style="display:none;">
+        <label for="unitSelect">Unit Nivad (Select Unit):</label>
+        <select id="unitSelect">
+            <option value="">-- Unit Select Kara --</option>
+        </select>
+    </div>
+    
+    <div class="routes-group" id="routesContainer">
+        <h3>📍 Sweeping Routes Select Kara:</h3>
+        <div id="checkboxesList"></div>
+    </div>
+    
+    <div class="message-box">
+        <label>Generated Message:</label>
+        <textarea id="messageOutput" readonly placeholder="Details select kelyawar message ithe disel..."></textarea>
+        <button id="copyBtn">📋 Message Copy Kara</button>
+        <div id="copyFeedback" class="copy-feedback">Message Copied Successfully! ✅</div>
+    </div>
+</div>
+
+<script>
+    const rawData = [{"WARD": "D", "UNIT": 22, "E-WARD": "87-88-99-100", "Route_1": "Phadke Road", "Route_2": "Tilak Chowk Road", "Route_3": "Agra Road", "Route_4": "Mahatma Phule Road", "Route_5": "Shivaji Chowk Road", "Route_6": "Ganesh Mandir Road", "Route_7": "Patkar Road", "Route_8": "Ramnagar Main Road", "Route_9": "Station Road", "Route_10": "Khadakpada Circle Road", "Route_11": "MIDC Road"}, {"WARD": "D", "UNIT": 26, "E-WARD": "97-98-101-102", "Route_1": "Tilak Chowk Road", "Route_2": "Agra Road", "Route_3": "Mahatma Phule Road", "Route_4": "Shivaji Chowk Road", "Route_5": "Ganesh Mandir Road", "Route_6": "Patkar Road", "Route_7": "Ramnagar Main Road", "Route_8": "Station Road", "Route_9": "Khadakpada Circle Road", "Route_10": "MIDC Road", "Route_11": "Manpada Road"}, {"WARD": "D", "UNIT": 38, "E-WARD": "95-96-103-104", "Route_1": "Agra Road", "Route_2": "Mahatma Phule Road", "Route_3": "Shivaji Chowk Road", "Route_4": "Ganesh Mandir Road", "Route_5": "Patkar Road", "Route_6": "Ramnagar Main Road", "Route_7": "Station Road", "Route_8": "Khadakpada Circle Road", "Route_9": "MIDC Road", "Route_10": "Manpada Road", "Route_11": "Ayre Road"}, {"WARD": "E", "UNIT": 2, "E-WARD": "112-113-114-115", "Route_1": "Mahatma Phule Road", "Route_2": "Shivaji Chowk Road", "Route_3": "Ganesh Mandir Road", "Route_4": "Patkar Road", "Route_5": "Ramnagar Main Road", "Route_6": "Station Road", "Route_7": "Khadakpada Circle Road", "Route_8": "MIDC Road", "Route_9": "Manpada Road", "Route_10": "Ayre Road", "Route_11": "Gandhi Nagar Road"}, {"WARD": "E", "UNIT": 10, "E-WARD": "120-121-122", "Route_1": "Shivaji Chowk Road", "Route_2": "Ganesh Mandir Road", "Route_3": "Patkar Road", "Route_4": "Ramnagar Main Road", "Route_5": "Station Road", "Route_6": "Khadakpada Circle Road", "Route_7": "MIDC Road", "Route_8": "Manpada Road", "Route_9": "Ayre Road", "Route_10": "Gandhi Nagar Road", "Route_11": "P&T Colony Road"}, {"WARD": "E", "UNIT": 19, "E-WARD": "84-85", "Route_1": "Ganesh Mandir Road", "Route_2": "Patkar Road", "Route_3": "Ramnagar Main Road", "Route_4": "Station Road", "Route_5": "Khadakpada Circle Road", "Route_6": "MIDC Road", "Route_7": "Manpada Road", "Route_8": "Ayre Road", "Route_9": "Gandhi Nagar Road", "Route_10": "P&T Colony Road", "Route_11": "Kopar Road"}, {"WARD": "E", "UNIT": 31, "E-WARD": "110-111-116", "Route_1": "Patkar Road", "Route_2": "Ramnagar Main Road", "Route_3": "Station Road", "Route_4": "Khadakpada Circle Road", "Route_5": "MIDC Road", "Route_6": "Manpada Road", "Route_7": "Ayre Road", "Route_8": "Gandhi Nagar Road", "Route_9": "P&T Colony Road", "Route_10": "Kopar Road", "Route_11": "Shastri Nagar Road"}, {"WARD": "F", "UNIT": 18, "E-WARD": "71-72", "Route_1": "Ramnagar Main Road", "Route_2": "Station Road", "Route_3": "Khadakpada Circle Road", "Route_4": "MIDC Road", "Route_5": "Manpada Road", "Route_6": "Ayre Road", "Route_7": "Gandhi Nagar Road", "Route_8": "P&T Colony Road", "Route_9": "Kopar Road", "Route_10": "Shastri Nagar Road", "Route_11": "Dombivli Gymkhana Road"}, {"WARD": "F", "UNIT": 25, "E-WARD": "46-47-73", "Route_1": "Station Road", "Route_2": "Khadakpada Circle Road", "Route_3": "MIDC Road", "Route_4": "Manpada Road", "Route_5": "Ayre Road", "Route_6": "Gandhi Nagar Road", "Route_7": "P&T Colony Road", "Route_8": "Kopar Road", "Route_9": "Shastri Nagar Road", "Route_10": "Dombivli Gymkhana Road", "Route_11": "Kalyan Shil Road"}, {"WARD": "F", "UNIT": 33, "E-WARD": "74-75-82-83", "Route_1": "Khadakpada Circle Road", "Route_2": "MIDC Road", "Route_3": "Manpada Road", "Route_4": "Ayre Road", "Route_5": "Gandhi Nagar Road", "Route_6": "P&T Colony Road", "Route_7": "Kopar Road", "Route_8": "Shastri Nagar Road", "Route_9": "Dombivli Gymkhana Road", "Route_10": "Kalyan Shil Road", "Route_11": "Pipeline Road"}, {"WARD": "F", "UNIT": 37, "E-WARD": "69-70", "Route_1": "MIDC Road", "Route_2": "Manpada Road", "Route_3": "Ayre Road", "Route_4": "Gandhi Nagar Road", "Route_5": "P&T Colony Road", "Route_6": "Kopar Road", "Route_7": "Shastri Nagar Road", "Route_8": "Dombivli Gymkhana Road", "Route_9": "Kalyan Shil Road", "Route_10": "Pipeline Road", "Route_11": "Model College Road"}, {"WARD": "G", "UNIT": 11, "E-WARD": "66-77-78", "Route_1": "Manpada Road", "Route_2": "Ayre Road", "Route_3": "Gandhi Nagar Road", "Route_4": "P&T Colony Road", "Route_5": "Kopar Road", "Route_6": "Shastri Nagar Road", "Route_7": "Dombivli Gymkhana Road", "Route_8": "Kalyan Shil Road", "Route_9": "Pipeline Road", "Route_10": "Model College Road", "Route_11": "Kala Talao Road"}, {"WARD": "G", "UNIT": 28, "E-WARD": "67-68-76", "Route_1": "Ayre Road", "Route_2": "Gandhi Nagar Road", "Route_3": "P&T Colony Road", "Route_4": "Kopar Road", "Route_5": "Shastri Nagar Road", "Route_6": "Dombivli Gymkhana Road", "Route_7": "Kalyan Shil Road", "Route_8": "Pipeline Road", "Route_9": "Model College Road", "Route_10": "Kala Talao Road", "Route_11": "Bail Bazaar Road"}, {"WARD": "G", "UNIT": 39, "E-WARD": "79-80-81", "Route_1": "Gandhi Nagar Road", "Route_2": "P&T Colony Road", "Route_3": "Kopar Road", "Route_4": "Shastri Nagar Road", "Route_5": "Dombivli Gymkhana Road", "Route_6": "Kalyan Shil Road", "Route_7": "Pipeline Road", "Route_8": "Model College Road", "Route_9": "Kala Talao Road", "Route_10": "Bail Bazaar Road", "Route_11": "Nehru Chowk Road"}, {"WARD": "H", "UNIT": 3, "E-WARD": "53-54-64-65", "Route_1": "P&T Colony Road", "Route_2": "Kopar Road", "Route_3": "Shastri Nagar Road", "Route_4": "Dombivli Gymkhana Road", "Route_5": "Kalyan Shil Road", "Route_6": "Pipeline Road", "Route_7": "Model College Road", "Route_8": "Kala Talao Road", "Route_9": "Bail Bazaar Road", "Route_10": "Nehru Chowk Road", "Route_11": "Murbad Road"}, {"WARD": "H", "UNIT": 4, "E-WARD": "55-60-62-63", "Route_1": "Kopar Road", "Route_2": "Shastri Nagar Road", "Route_3": "Dombivli Gymkhana Road", "Route_4": "Kalyan Shil Road", "Route_5": "Pipeline Road", "Route_6": "Model College Road", "Route_7": "Kala Talao Road", "Route_8": "Bail Bazaar Road", "Route_9": "Nehru Chowk Road", "Route_10": "Murbad Road", "Route_11": "Vishnu Nagar Road"}, {"WARD": "H", "UNIT": 7, "E-WARD": "51-52-56", "Route_1": "Shastri Nagar Road", "Route_2": "Dombivli Gymkhana Road", "Route_3": "Kalyan Shil Road", "Route_4": "Pipeline Road", "Route_5": "Model College Road", "Route_6": "Kala Talao Road", "Route_7": "Bail Bazaar Road", "Route_8": "Nehru Chowk Road", "Route_9": "Murbad Road", "Route_10": "Vishnu Nagar Road", "Route_11": "Savarkar Road"}, {"WARD": "H", "UNIT": 8, "E-WARD": "57-58-59-61", "Route_1": "Dombivli Gymkhana Road", "Route_2": "Kalyan Shil Road", "Route_3": "Pipeline Road", "Route_4": "Model College Road", "Route_5": "Kala Talao Road", "Route_6": "Bail Bazaar Road", "Route_7": "Nehru Chowk Road", "Route_8": "Murbad Road", "Route_9": "Vishnu Nagar Road", "Route_10": "Savarkar Road", "Route_11": "Subhash Road"}, {"WARD": "H", "UNIT": 27, "E-WARD": "48-49-50", "Route_1": "Kalyan Shil Road", "Route_2": "Pipeline Road", "Route_3": "Model College Road", "Route_4": "Kala Talao Road", "Route_5": "Bail Bazaar Road", "Route_6": "Nehru Chowk Road", "Route_7": "Murbad Road", "Route_8": "Vishnu Nagar Road", "Route_9": "Savarkar Road", "Route_10": "Subhash Road", "Route_11": "Bhagat Singh Road"}, {"WARD": "I", "UNIT": 14, "E-WARD": "105-106-118", "Route_1": "Pipeline Road", "Route_2": "Model College Road", "Route_3": "Kala Talao Road", "Route_4": "Bail Bazaar Road", "Route_5": "Nehru Chowk Road", "Route_6": "Murbad Road", "Route_7": "Vishnu Nagar Road", "Route_8": "Savarkar Road", "Route_9": "Subhash Road", "Route_10": "Bhagat Singh Road", "Route_11": "Godrej Hill Road"}, {"WARD": "I", "UNIT": 23, "E-WARD": "86-107-108-109", "Route_1": "Model College Road", "Route_2": "Kala Talao Road", "Route_3": "Bail Bazaar Road", "Route_4": "Nehru Chowk Road", "Route_5": "Murbad Road", "Route_6": "Vishnu Nagar Road", "Route_7": "Savarkar Road", "Route_8": "Subhash Road", "Route_9": "Bhagat Singh Road", "Route_10": "Godrej Hill Road", "Route_11": "Tisgaon Road"}, {"WARD": "I", "UNIT": 32, "E-WARD": "117", "Route_1": "Kala Talao Road", "Route_2": "Bail Bazaar Road", "Route_3": "Nehru Chowk Road", "Route_4": "Murbad Road", "Route_5": "Vishnu Nagar Road", "Route_6": "Savarkar Road", "Route_7": "Subhash Road", "Route_8": "Bhagat Singh Road", "Route_9": "Godrej Hill Road", "Route_10": "Tisgaon Road", "Route_11": "Chikanghar Road"}, {"WARD": "I", "UNIT": 34, "E-WARD": "119", "Route_1": "Bail Bazaar Road", "Route_2": "Nehru Chowk Road", "Route_3": "Murbad Road", "Route_4": "Vishnu Nagar Road", "Route_5": "Savarkar Road", "Route_6": "Subhash Road", "Route_7": "Bhagat Singh Road", "Route_8": "Godrej Hill Road", "Route_9": "Tisgaon Road", "Route_10": "Chikanghar Road", "Route_11": "Phadke Road"}, {"WARD": "J", "UNIT": 6, "E-WARD": "41-89-90-91", "Route_1": "Nehru Chowk Road", "Route_2": "Murbad Road", "Route_3": "Vishnu Nagar Road", "Route_4": "Savarkar Road", "Route_5": "Subhash Road", "Route_6": "Bhagat Singh Road", "Route_7": "Godrej Hill Road", "Route_8": "Tisgaon Road", "Route_9": "Chikanghar Road", "Route_10": "Phadke Road", "Route_11": "Tilak Chowk Road"}, {"WARD": "J", "UNIT": 30, "E-WARD": "39-40-92-93-94", "Route_1": "Murbad Road", "Route_2": "Vishnu Nagar Road", "Route_3": "Savarkar Road", "Route_4": "Subhash Road", "Route_5": "Bhagat Singh Road", "Route_6": "Godrej Hill Road", "Route_7": "Tisgaon Road", "Route_8": "Chikanghar Road", "Route_9": "Phadke Road", "Route_10": "Tilak Chowk Road", "Route_11": "Agra Road"}, {"WARD": "J", "UNIT": 35, "E-WARD": "42-43-44-45", "Route_1": "Vishnu Nagar Road", "Route_2": "Savarkar Road", "Route_3": "Subhash Road", "Route_4": "Bhagat Singh Road", "Route_5": "Godrej Hill Road", "Route_6": "Tisgaon Road", "Route_7": "Chikanghar Road", "Route_8": "Phadke Road", "Route_9": "Tilak Chowk Road", "Route_10": "Agra Road", "Route_11": "Mahatma Phule Road"}];
+    const dataMap = {};
+    
+    rawData.forEach(row => {
+        const ward = row["WARD"];
+        if (!ward) return;
+        
+        if (!dataMap[ward]) {
+            dataMap[ward] = [];
+        }
+        dataMap[ward].push(row);
+    });
+    
+    const dateSelect = document.getElementById('dateSelect');
+    const wardSelect = document.getElementById('wardSelect');
+    const unitGroup = document.getElementById('unitGroup');
+    const unitSelect = document.getElementById('unitSelect');
+    const routesContainer = document.getElementById('routesContainer');
+    const checkboxesList = document.getElementById('checkboxesList');
+    const messageOutput = document.getElementById('messageOutput');
+    const copyBtn = document.getElementById('copyBtn');
+    const copyFeedback = document.getElementById('copyFeedback');
+    
+    let currentRowData = null;
+    
+    // Auto-set Date to Today
+    const today = new Date().toISOString().split('T')[0];
+    dateSelect.value = today;
+    dateSelect.addEventListener('change', generateMessage);
+    
+    const wards = Object.keys(dataMap).sort();
+    wards.forEach(ward => {
+        const option = document.createElement('option');
+        option.value = ward;
+        option.textContent = ward;
+        wardSelect.appendChild(option);
+    });
+    
+    wardSelect.addEventListener('change', function() {
+        const selectedWard = this.value;
+        unitSelect.innerHTML = '<option value="">-- Unit Select Kara --</option>';
+        routesContainer.style.display = 'none';
+        messageOutput.value = '';
+        currentRowData = null;
+        
+        if (selectedWard) {
+            const units = dataMap[selectedWard];
+            units.forEach((unitData, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = unitData["UNIT"];
+                unitSelect.appendChild(option);
+            });
+            unitGroup.style.display = 'block';
+        } else {
+            unitGroup.style.display = 'none';
+        }
+    });
+    
+    unitSelect.addEventListener('change', function() {
+        const selectedIndex = this.value;
+        const selectedWard = wardSelect.value;
+        checkboxesList.innerHTML = '';
+        messageOutput.value = '';
+        
+        if (selectedIndex !== "") {
+            currentRowData = dataMap[selectedWard][selectedIndex];
+            
+            const routeKeys = Object.keys(currentRowData).filter(key => key.startsWith('Route_') && currentRowData[key] !== "");
+            
+            // Sort keys to maintain correct order (Route_1, Route_2, etc.)
+            routeKeys.sort((a, b) => {
+                return parseInt(a.split('_')[1]) - parseInt(b.split('_')[1]);
+            });
+            
+            if (routeKeys.length > 0) {
+                routeKeys.forEach(key => {
+                    const routeName = currentRowData[key];
+                    if (routeName.trim() !== "") {
+                        const routeNum = key.split('_')[1]; 
+                        const displayLabel = `R${routeNum} - ${routeName}`; 
+                        
+                        const div = document.createElement('div');
+                        div.className = 'checkbox-item';
+                        
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.id = key;
+                        checkbox.value = routeName;
+                        checkbox.checked = true;
+                        
+                        checkbox.addEventListener('change', generateMessage);
+                        
+                        const label = document.createElement('label');
+                        label.htmlFor = key;
+                        label.textContent = displayLabel;
+                        
+                        div.appendChild(checkbox);
+                        div.appendChild(label);
+                        checkboxesList.appendChild(div);
+                    }
+                });
+                
+                routesContainer.style.display = 'block';
+                generateMessage();
+            } else {
+                routesContainer.style.display = 'none';
+            }
+        } else {
+            routesContainer.style.display = 'none';
+        }
+    });
+    
+    function generateMessage() {
+        if (!currentRowData) return;
+        
+        const ward = currentRowData["WARD"] || "";
+        const unit = currentRowData["UNIT"] || "";
+        const eWard = currentRowData["E-WARD"] || "";
+        
+        // Use selected date or fallback to today
+        let d = new Date();
+        if (dateSelect.value) {
+            d = new Date(dateSelect.value);
+        }
+        const formattedDate = d.getDate().toString().padStart(2, '0') + '/' + 
+                              (d.getMonth() + 1).toString().padStart(2, '0') + '/' + 
+                              d.getFullYear();
+        
+        let message = `*Sumeet Elko*\n`;
+        message += `*Today Sweeping Deployment*\n`;
+        message += `===============================\n`;
+        message += `*Date:* ${formattedDate}\n`;
+        message += `*Ward:* ${ward}\n`;
+        message += `*Unit:* ${unit}\n`;
+        if (eWard) message += `*E-Ward:* ${eWard}\n`;
+        message += `===============================\n`;
+        message += `*Sweeping Routes:*\n`;
+        
+        const checkedBoxes = document.querySelectorAll('#checkboxesList input[type="checkbox"]:checked');
+        
+        if (checkedBoxes.length > 0) {
+            let counter = 1;
+            checkedBoxes.forEach(box => {
+                const routeNum = box.id.split('_')[1];
+                message += `${counter}. R${routeNum}: ${box.value}\n`;
+                counter++;
+            });
+        } else {
+            message += `- No routes selected -\n`;
+        }
+        
+        messageOutput.value = message;
+    }
+    
+    copyBtn.addEventListener('click', function() {
+        if (messageOutput.value.trim() !== "") {
+            messageOutput.select();
+            messageOutput.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(messageOutput.value).then(() => {
+                copyFeedback.style.display = 'block';
+                setTimeout(() => {
+                    copyFeedback.style.display = 'none';
+                }, 3000);
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
