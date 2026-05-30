@@ -1,390 +1,342 @@
 <!DOCTYPE html>
-<html lang="mr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Today Sweeping Deployment Generator</title>
+    <title>Sumeet Elko - Sweeping Deployment Message Generator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #27ae60;
-            --bg-color: #ecf0f1;
-            --card-bg: #ffffff;
-            --text-color: #333333;
-            --border-color: #bdc3c7;
-        }
-        
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: #f0f4f8;
+            color: #333;
             padding: 20px;
             display: flex;
             justify-content: center;
         }
-        
         .container {
-            background-color: var(--card-bg);
-            max-width: 600px;
+            background: #ffffff;
             width: 100%;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 650px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
-        
-        h2 {
+        .header {
+            background: #1a73e8;
+            color: white;
+            padding: 20px;
             text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 25px;
-            font-size: 1.5rem;
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 10px;
-            display: inline-block;
-            width: 100%;
         }
-        
+        .header h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        .header p {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 25px;
+        }
         .form-group {
             margin-bottom: 20px;
         }
-        
         label {
-            display: block;
             font-weight: 600;
+            display: block;
             margin-bottom: 8px;
-            color: var(--primary-color);
+            color: #444;
+            font-size: 15px;
         }
-        
-        select, input[type="date"] {
+        select, input[type="date"], button {
             width: 100%;
-            padding: 10px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            font-size: 1rem;
+            padding: 12px;
+            border: 1px solid #cdd3d8;
+            border-radius: 6px;
+            font-size: 15px;
+            background: #fff;
             outline: none;
-            transition: border-color 0.3s;
-            background-color: #f9fbfd;
+            transition: 0.3s;
         }
-        
         select:focus, input[type="date"]:focus {
-            border-color: var(--secondary-color);
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26,115,232,0.2);
         }
-        
-        .routes-group {
-            background-color: #f9fbfd;
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            max-height: 250px;
+        select:disabled {
+            background: #f1f3f4;
+            cursor: not-allowed;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 5px;
+            max-height: 300px;
             overflow-y: auto;
-            display: none;
+            padding: 15px;
+            border: 1px solid #e0e5e9;
+            border-radius: 6px;
+            background: #f8fafc;
         }
-        
-        .routes-group h3 {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-        }
-        
         .checkbox-item {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 10px;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 6px;
+            transition: background 0.2s;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
         }
-        
+        .checkbox-item:last-child {
+            border-bottom: none;
+        }
+        .checkbox-item:hover {
+            background: #edf2f7;
+        }
         .checkbox-item input[type="checkbox"] {
-            margin-top: 4px;
-            margin-right: 10px;
-            width: 18px;
-            height: 18px;
-            accent-color: var(--secondary-color);
+            width: 20px;
+            height: 20px;
             cursor: pointer;
+            accent-color: #1a73e8;
+            margin-top: 2px;
         }
-        
         .checkbox-item label {
-            font-weight: normal;
-            color: var(--text-color);
-            cursor: pointer;
-            line-height: 1.4;
             margin-bottom: 0;
+            font-weight: 400;
+            cursor: pointer;
+            width: 100%;
+            line-height: 1.4;
+            font-size: 14px;
         }
-        
-        .message-box {
-            margin-top: 25px;
+        .route-id {
+            font-weight: bold;
+            color: #1a73e8;
         }
-        
         textarea {
             width: 100%;
-            height: 250px;
             padding: 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            font-size: 0.95rem;
+            border: 1px solid #cdd3d8;
+            border-radius: 6px;
+            height: 250px;
+            font-size: 15px;
             resize: vertical;
-            background-color: #fdfdfd;
-            line-height: 1.5;
+            background: #fafafa;
             outline: none;
         }
-        
         textarea:focus {
-            border-color: var(--secondary-color);
+            border-color: #1a73e8;
         }
-        
-        button {
-            width: 100%;
-            background-color: var(--secondary-color);
+        .btn-copy {
+            background-color: #28a745;
             color: white;
             border: none;
-            padding: 12px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 5px;
             cursor: pointer;
             margin-top: 15px;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: #219653;
-        }
-        
-        .copy-feedback {
-            text-align: center;
-            color: var(--secondary-color);
-            margin-top: 10px;
             font-weight: bold;
-            display: none;
-            font-size: 0.9rem;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
-        
-        /* Custom Scrollbar */
-        .routes-group::-webkit-scrollbar {
-            width: 6px;
+        .btn-copy:hover {
+            background-color: #218838;
         }
-        .routes-group::-webkit-scrollbar-track {
-            background: #f1f1f1; 
-        }
-        .routes-group::-webkit-scrollbar-thumb {
-            background: #bdc3c7; 
-            border-radius: 3px;
-        }
-        .routes-group::-webkit-scrollbar-thumb:hover {
-            background: #95a5a6; 
+        .btn-copy:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>🧹 Today Sweeping Deployment</h2>
-    
-    <div class="form-group">
-        <label for="dateSelect">Tarik (Date):</label>
-        <input type="date" id="dateSelect">
+    <div class="header">
+        <h2><i class="fas fa-building"></i> SUMEET ELKO</h2>
+        <p><i class="fas fa-broom"></i> Sweeping Message Generator</p>
     </div>
     
-    <div class="form-group">
-        <label for="wardSelect">Ward Nivad (Select Ward):</label>
-        <select id="wardSelect">
-            <option value="">-- Ward Select Kara --</option>
-        </select>
-    </div>
-    
-    <div class="form-group" id="unitGroup" style="display:none;">
-        <label for="unitSelect">Unit Nivad (Select Unit):</label>
-        <select id="unitSelect">
-            <option value="">-- Unit Select Kara --</option>
-        </select>
-    </div>
-    
-    <div class="routes-group" id="routesContainer">
-        <h3>📍 Sweeping Routes Select Kara:</h3>
-        <div id="checkboxesList"></div>
-    </div>
-    
-    <div class="message-box">
-        <label>Generated Message:</label>
-        <textarea id="messageOutput" readonly placeholder="Details select kelyawar message ithe disel..."></textarea>
-        <button id="copyBtn">📋 Message Copy Kara</button>
-        <div id="copyFeedback" class="copy-feedback">Message Copied Successfully! ✅</div>
+    <div class="content">
+        <div class="form-group">
+            <label for="deploy-date">Date Select Kara:</label>
+            <input type="date" id="deploy-date" onchange="updateMessage()">
+        </div>
+
+        <div class="form-group">
+            <label for="ward">Ward Select Kara:</label>
+            <select id="ward" onchange="populateUnits()">
+                <option value="">-- Select Ward --</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="unit">Unit Select Kara:</label>
+            <select id="unit" onchange="populateRoutes()" disabled>
+                <option value="">-- Select Unit --</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="routes-container" style="display: none;">
+            <label>Sweeping Routes (Je deploy kele ahet te tick kara):</label>
+            <div class="checkbox-group" id="routes-list"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="message">Generated Message:</label>
+            <textarea id="message" readonly placeholder="Tumcha message yethe tayar hoil..."></textarea>
+            <button class="btn-copy" onclick="copyMessage()"><i class="fas fa-copy"></i> Copy Message</button>
+        </div>
     </div>
 </div>
 
 <script>
-    const rawData = [{"WARD": "D", "UNIT": 22, "E-WARD": "87-88-99-100", "Route_1": "Phadke Road", "Route_2": "Tilak Chowk Road", "Route_3": "Agra Road", "Route_4": "Mahatma Phule Road", "Route_5": "Shivaji Chowk Road", "Route_6": "Ganesh Mandir Road", "Route_7": "Patkar Road", "Route_8": "Ramnagar Main Road", "Route_9": "Station Road", "Route_10": "Khadakpada Circle Road", "Route_11": "MIDC Road"}, {"WARD": "D", "UNIT": 26, "E-WARD": "97-98-101-102", "Route_1": "Tilak Chowk Road", "Route_2": "Agra Road", "Route_3": "Mahatma Phule Road", "Route_4": "Shivaji Chowk Road", "Route_5": "Ganesh Mandir Road", "Route_6": "Patkar Road", "Route_7": "Ramnagar Main Road", "Route_8": "Station Road", "Route_9": "Khadakpada Circle Road", "Route_10": "MIDC Road", "Route_11": "Manpada Road"}, {"WARD": "D", "UNIT": 38, "E-WARD": "95-96-103-104", "Route_1": "Agra Road", "Route_2": "Mahatma Phule Road", "Route_3": "Shivaji Chowk Road", "Route_4": "Ganesh Mandir Road", "Route_5": "Patkar Road", "Route_6": "Ramnagar Main Road", "Route_7": "Station Road", "Route_8": "Khadakpada Circle Road", "Route_9": "MIDC Road", "Route_10": "Manpada Road", "Route_11": "Ayre Road"}, {"WARD": "E", "UNIT": 2, "E-WARD": "112-113-114-115", "Route_1": "Mahatma Phule Road", "Route_2": "Shivaji Chowk Road", "Route_3": "Ganesh Mandir Road", "Route_4": "Patkar Road", "Route_5": "Ramnagar Main Road", "Route_6": "Station Road", "Route_7": "Khadakpada Circle Road", "Route_8": "MIDC Road", "Route_9": "Manpada Road", "Route_10": "Ayre Road", "Route_11": "Gandhi Nagar Road"}, {"WARD": "E", "UNIT": 10, "E-WARD": "120-121-122", "Route_1": "Shivaji Chowk Road", "Route_2": "Ganesh Mandir Road", "Route_3": "Patkar Road", "Route_4": "Ramnagar Main Road", "Route_5": "Station Road", "Route_6": "Khadakpada Circle Road", "Route_7": "MIDC Road", "Route_8": "Manpada Road", "Route_9": "Ayre Road", "Route_10": "Gandhi Nagar Road", "Route_11": "P&T Colony Road"}, {"WARD": "E", "UNIT": 19, "E-WARD": "84-85", "Route_1": "Ganesh Mandir Road", "Route_2": "Patkar Road", "Route_3": "Ramnagar Main Road", "Route_4": "Station Road", "Route_5": "Khadakpada Circle Road", "Route_6": "MIDC Road", "Route_7": "Manpada Road", "Route_8": "Ayre Road", "Route_9": "Gandhi Nagar Road", "Route_10": "P&T Colony Road", "Route_11": "Kopar Road"}, {"WARD": "E", "UNIT": 31, "E-WARD": "110-111-116", "Route_1": "Patkar Road", "Route_2": "Ramnagar Main Road", "Route_3": "Station Road", "Route_4": "Khadakpada Circle Road", "Route_5": "MIDC Road", "Route_6": "Manpada Road", "Route_7": "Ayre Road", "Route_8": "Gandhi Nagar Road", "Route_9": "P&T Colony Road", "Route_10": "Kopar Road", "Route_11": "Shastri Nagar Road"}, {"WARD": "F", "UNIT": 18, "E-WARD": "71-72", "Route_1": "Ramnagar Main Road", "Route_2": "Station Road", "Route_3": "Khadakpada Circle Road", "Route_4": "MIDC Road", "Route_5": "Manpada Road", "Route_6": "Ayre Road", "Route_7": "Gandhi Nagar Road", "Route_8": "P&T Colony Road", "Route_9": "Kopar Road", "Route_10": "Shastri Nagar Road", "Route_11": "Dombivli Gymkhana Road"}, {"WARD": "F", "UNIT": 25, "E-WARD": "46-47-73", "Route_1": "Station Road", "Route_2": "Khadakpada Circle Road", "Route_3": "MIDC Road", "Route_4": "Manpada Road", "Route_5": "Ayre Road", "Route_6": "Gandhi Nagar Road", "Route_7": "P&T Colony Road", "Route_8": "Kopar Road", "Route_9": "Shastri Nagar Road", "Route_10": "Dombivli Gymkhana Road", "Route_11": "Kalyan Shil Road"}, {"WARD": "F", "UNIT": 33, "E-WARD": "74-75-82-83", "Route_1": "Khadakpada Circle Road", "Route_2": "MIDC Road", "Route_3": "Manpada Road", "Route_4": "Ayre Road", "Route_5": "Gandhi Nagar Road", "Route_6": "P&T Colony Road", "Route_7": "Kopar Road", "Route_8": "Shastri Nagar Road", "Route_9": "Dombivli Gymkhana Road", "Route_10": "Kalyan Shil Road", "Route_11": "Pipeline Road"}, {"WARD": "F", "UNIT": 37, "E-WARD": "69-70", "Route_1": "MIDC Road", "Route_2": "Manpada Road", "Route_3": "Ayre Road", "Route_4": "Gandhi Nagar Road", "Route_5": "P&T Colony Road", "Route_6": "Kopar Road", "Route_7": "Shastri Nagar Road", "Route_8": "Dombivli Gymkhana Road", "Route_9": "Kalyan Shil Road", "Route_10": "Pipeline Road", "Route_11": "Model College Road"}, {"WARD": "G", "UNIT": 11, "E-WARD": "66-77-78", "Route_1": "Manpada Road", "Route_2": "Ayre Road", "Route_3": "Gandhi Nagar Road", "Route_4": "P&T Colony Road", "Route_5": "Kopar Road", "Route_6": "Shastri Nagar Road", "Route_7": "Dombivli Gymkhana Road", "Route_8": "Kalyan Shil Road", "Route_9": "Pipeline Road", "Route_10": "Model College Road", "Route_11": "Kala Talao Road"}, {"WARD": "G", "UNIT": 28, "E-WARD": "67-68-76", "Route_1": "Ayre Road", "Route_2": "Gandhi Nagar Road", "Route_3": "P&T Colony Road", "Route_4": "Kopar Road", "Route_5": "Shastri Nagar Road", "Route_6": "Dombivli Gymkhana Road", "Route_7": "Kalyan Shil Road", "Route_8": "Pipeline Road", "Route_9": "Model College Road", "Route_10": "Kala Talao Road", "Route_11": "Bail Bazaar Road"}, {"WARD": "G", "UNIT": 39, "E-WARD": "79-80-81", "Route_1": "Gandhi Nagar Road", "Route_2": "P&T Colony Road", "Route_3": "Kopar Road", "Route_4": "Shastri Nagar Road", "Route_5": "Dombivli Gymkhana Road", "Route_6": "Kalyan Shil Road", "Route_7": "Pipeline Road", "Route_8": "Model College Road", "Route_9": "Kala Talao Road", "Route_10": "Bail Bazaar Road", "Route_11": "Nehru Chowk Road"}, {"WARD": "H", "UNIT": 3, "E-WARD": "53-54-64-65", "Route_1": "P&T Colony Road", "Route_2": "Kopar Road", "Route_3": "Shastri Nagar Road", "Route_4": "Dombivli Gymkhana Road", "Route_5": "Kalyan Shil Road", "Route_6": "Pipeline Road", "Route_7": "Model College Road", "Route_8": "Kala Talao Road", "Route_9": "Bail Bazaar Road", "Route_10": "Nehru Chowk Road", "Route_11": "Murbad Road"}, {"WARD": "H", "UNIT": 4, "E-WARD": "55-60-62-63", "Route_1": "Kopar Road", "Route_2": "Shastri Nagar Road", "Route_3": "Dombivli Gymkhana Road", "Route_4": "Kalyan Shil Road", "Route_5": "Pipeline Road", "Route_6": "Model College Road", "Route_7": "Kala Talao Road", "Route_8": "Bail Bazaar Road", "Route_9": "Nehru Chowk Road", "Route_10": "Murbad Road", "Route_11": "Vishnu Nagar Road"}, {"WARD": "H", "UNIT": 7, "E-WARD": "51-52-56", "Route_1": "Shastri Nagar Road", "Route_2": "Dombivli Gymkhana Road", "Route_3": "Kalyan Shil Road", "Route_4": "Pipeline Road", "Route_5": "Model College Road", "Route_6": "Kala Talao Road", "Route_7": "Bail Bazaar Road", "Route_8": "Nehru Chowk Road", "Route_9": "Murbad Road", "Route_10": "Vishnu Nagar Road", "Route_11": "Savarkar Road"}, {"WARD": "H", "UNIT": 8, "E-WARD": "57-58-59-61", "Route_1": "Dombivli Gymkhana Road", "Route_2": "Kalyan Shil Road", "Route_3": "Pipeline Road", "Route_4": "Model College Road", "Route_5": "Kala Talao Road", "Route_6": "Bail Bazaar Road", "Route_7": "Nehru Chowk Road", "Route_8": "Murbad Road", "Route_9": "Vishnu Nagar Road", "Route_10": "Savarkar Road", "Route_11": "Subhash Road"}, {"WARD": "H", "UNIT": 27, "E-WARD": "48-49-50", "Route_1": "Kalyan Shil Road", "Route_2": "Pipeline Road", "Route_3": "Model College Road", "Route_4": "Kala Talao Road", "Route_5": "Bail Bazaar Road", "Route_6": "Nehru Chowk Road", "Route_7": "Murbad Road", "Route_8": "Vishnu Nagar Road", "Route_9": "Savarkar Road", "Route_10": "Subhash Road", "Route_11": "Bhagat Singh Road"}, {"WARD": "I", "UNIT": 14, "E-WARD": "105-106-118", "Route_1": "Pipeline Road", "Route_2": "Model College Road", "Route_3": "Kala Talao Road", "Route_4": "Bail Bazaar Road", "Route_5": "Nehru Chowk Road", "Route_6": "Murbad Road", "Route_7": "Vishnu Nagar Road", "Route_8": "Savarkar Road", "Route_9": "Subhash Road", "Route_10": "Bhagat Singh Road", "Route_11": "Godrej Hill Road"}, {"WARD": "I", "UNIT": 23, "E-WARD": "86-107-108-109", "Route_1": "Model College Road", "Route_2": "Kala Talao Road", "Route_3": "Bail Bazaar Road", "Route_4": "Nehru Chowk Road", "Route_5": "Murbad Road", "Route_6": "Vishnu Nagar Road", "Route_7": "Savarkar Road", "Route_8": "Subhash Road", "Route_9": "Bhagat Singh Road", "Route_10": "Godrej Hill Road", "Route_11": "Tisgaon Road"}, {"WARD": "I", "UNIT": 32, "E-WARD": "117", "Route_1": "Kala Talao Road", "Route_2": "Bail Bazaar Road", "Route_3": "Nehru Chowk Road", "Route_4": "Murbad Road", "Route_5": "Vishnu Nagar Road", "Route_6": "Savarkar Road", "Route_7": "Subhash Road", "Route_8": "Bhagat Singh Road", "Route_9": "Godrej Hill Road", "Route_10": "Tisgaon Road", "Route_11": "Chikanghar Road"}, {"WARD": "I", "UNIT": 34, "E-WARD": "119", "Route_1": "Bail Bazaar Road", "Route_2": "Nehru Chowk Road", "Route_3": "Murbad Road", "Route_4": "Vishnu Nagar Road", "Route_5": "Savarkar Road", "Route_6": "Subhash Road", "Route_7": "Bhagat Singh Road", "Route_8": "Godrej Hill Road", "Route_9": "Tisgaon Road", "Route_10": "Chikanghar Road", "Route_11": "Phadke Road"}, {"WARD": "J", "UNIT": 6, "E-WARD": "41-89-90-91", "Route_1": "Nehru Chowk Road", "Route_2": "Murbad Road", "Route_3": "Vishnu Nagar Road", "Route_4": "Savarkar Road", "Route_5": "Subhash Road", "Route_6": "Bhagat Singh Road", "Route_7": "Godrej Hill Road", "Route_8": "Tisgaon Road", "Route_9": "Chikanghar Road", "Route_10": "Phadke Road", "Route_11": "Tilak Chowk Road"}, {"WARD": "J", "UNIT": 30, "E-WARD": "39-40-92-93-94", "Route_1": "Murbad Road", "Route_2": "Vishnu Nagar Road", "Route_3": "Savarkar Road", "Route_4": "Subhash Road", "Route_5": "Bhagat Singh Road", "Route_6": "Godrej Hill Road", "Route_7": "Tisgaon Road", "Route_8": "Chikanghar Road", "Route_9": "Phadke Road", "Route_10": "Tilak Chowk Road", "Route_11": "Agra Road"}, {"WARD": "J", "UNIT": 35, "E-WARD": "42-43-44-45", "Route_1": "Vishnu Nagar Road", "Route_2": "Savarkar Road", "Route_3": "Subhash Road", "Route_4": "Bhagat Singh Road", "Route_5": "Godrej Hill Road", "Route_6": "Tisgaon Road", "Route_7": "Chikanghar Road", "Route_8": "Phadke Road", "Route_9": "Tilak Chowk Road", "Route_10": "Agra Road", "Route_11": "Mahatma Phule Road"}];
-    const dataMap = {};
+    const data = {"D": {"22": {"routes": [{"id": "r1", "name": "PUNA LINK ROAD, VIJAY NAGAR CROSS ROAD, HARIDARSHAN APARTMENT ROAD"}, {"id": "r2", "name": "PUNA LINK ROAD, TISAIKUNJ RESIDENCY ROAD, BHANUSHALI HALL ROAD"}, {"id": "r3", "name": "PUNALINK ROAD, PUNA LINK  ROAD CROSS LANE, PUNA LINK  ROAD CROSS LANE"}, {"id": "r4", "name": "MALANGAD ROAD, KABOOTARA MANDIR ROAD"}, {"id": "r5", "name": "MALANGAD ROAD"}, {"id": "r6", "name": "100 FEET ROAD"}, {"id": "r7", "name": "VIJAY NAGAR ROAD, SHANKAR MANDIR ROAD, VIJAY NAGAR CROSS ROAD"}, {"id": "r8", "name": "AMRAI ROAD, AMRAI CROSS ROAD"}, {"id": "r9", "name": "TIS GAON PADA KAMANI ROAD, TIS GAON PADA KAMANI ROAD, NATIONAL MEDICAL & GEN. STORE ROAD"}, {"id": "r10", "name": "TISGAON ROAD, THE GLOBAL SCHOOL ROAD, TISAI MARRIAGE HALL ROAD, TISGAON CROSS ROAD"}, {"id": "r11", "name": "TISGAON ROAD, AYODHYA NAGARI ROAD, SHANIVAR BHAGAT ROAD, HINDU TMEPLE ROAD"}, {"id": "r12", "name": "AMRAI ROAD, 100 FEET CROSS ROAD, AMRAI CROSS ROAD, AMRAI CROSS ROAD, 100 FEET CROSS ROAD"}, {"id": "r13", "name": "GAVDEVI MANDIR ROAD, GAVDEVI MANDIR CROSS ROAD, GAVDEVI MANDIR TISGAON ROAD"}, {"id": "r14", "name": "GAVDEVI MANDIR CROSS ROAD, VIJAY NAGAR CROSS ROAD, GUN GOPAL MANDIR CROSS ROAD, ST.MARRY'S HIGH SCHOOL ROAD"}, {"id": "r15", "name": "100 FEET ROAD"}, {"id": "r16", "name": "GAVDEVI MANDIR CROSS ROAD, DMCT HOSPITAL ROAD, TABELA ROAD, MALANGAD CROSS ROAD"}]}, "26": {"routes": [{"id": "r17", "name": "PANDURANG NAGAR ROAD, JAI BAI VIDHYA MANDIR ROAD, SURESH PAWSHE ROAD, TRIMURTI GARDEN MARG, TRIMURTI GARDEN MARG"}, {"id": "r18", "name": "PUNELINK ROAD, PUNELINK ROAD, PUNELINK ROAD"}, {"id": "r19", "name": "JAI BAI VIDHYA MANDIR ROAD, HANUMAN NAGAR CROSS ROAD, HANUMAN NAGAR ROAD, JAI BAI VIDHYA MANDIR CROSS ROAD"}, {"id": "r20", "name": "HANUMAN NAGAR ROAD, HANUMAN NAGAR ROAD, GANESH NAGAR ROAD, HANUMAN NAGAR ROAD, ARNAV AJIT BUNGLOW MARG"}, {"id": "r21", "name": "HANUMAN NAGAR CROSS ROAD, HANUMAN NAGAR CROSS ROAD, LT PAWSE ROAD, BHAGVAN NAGAR ROAD, LT PAWSE CROSS ROAD"}, {"id": "r22", "name": "SHANKAR PAWSHE ROAD, VIJAY DANGLE MARG, SHANKAR PAWASHE CROSS ROAD"}, {"id": "r23", "name": "GAON DEVI MANDIR ROAD, GAON DEVI MANDIR ROAD, 60 FEET ROAD, 60 FEET ROAD"}, {"id": "r24", "name": "RAJARAM PAWASHE ROAD"}, {"id": "r25", "name": "CHINCHA PADA ROAD, GANESH NAGAR ROAD, CHINCHA PADA ROAD"}, {"id": "r26", "name": "KATEMANIVALI CROSS ROAD, RAI RESIDENCY ROAD, RIDDHI SIDDHI HEIGHTH STREET, RIDDHI SIDDHI HEIGHTH STREET, ST. THOMAS HIGH SCHOOL"}, {"id": "r27", "name": "CHINCHPADA ROAD, CHINCHPADA ROAD, SUMANAGAL HOSPITAL ROAD, FRIENDS COLONY ROAD, SAKET VIDYANAGARI MARG, SAKET VIDYANAGARI MARG, SAKET VIDYANAGARI MARG"}, {"id": "r28", "name": "CHINCH[ADA ROAD, MODEL COLLEGE ROAD, PANDURANG NAGAR ROAD, DURGA NAGAR ROAD, RAJARAM TOWER STREET, MALHAR PARK LANE, JAMUNABAI TOWER STREET"}, {"id": "r29", "name": "MHATRE NAKA ROAD, MHATRE NAKA ROAD"}, {"id": "r30", "name": "MHATRE NAKA ROAD, MHATRE NAKA ROAD"}]}, "38": {"routes": [{"id": "r31", "name": "PUNA LINK ROAD / JAI BAI ROAD, JAI BAI VIDHYA MANDIR ROAD, JAI BAI VIDHYA MANDIR CROSS ROAD, KATEMANIVALI CROSS ROAD"}, {"id": "r32", "name": "PUNE LINK ROAD"}, {"id": "r33", "name": "PUNE LINK ROAD"}, {"id": "r34", "name": "MAHALAXMI SHIPING CENTER ROAD, NR. AROHI FAST FOOD STREET, VEER SAVARKAR CHOWK MARG, SAHYADRI ROAD PARK LANE, SHANKAR PAVSE CROSS ROAD"}, {"id": "r35", "name": "KAMLA DEVI COLLEGE ROAD, VINAYAK COLONY ROAD, KATEMANIVALI CROSS ROAD, NEW MODERN ENGLISH SCHOOL ROAD"}, {"id": "r36", "name": "SHANKAR PAWASHE ROAD, SHANKAR PAWASHE CROSS ROAD, HOLY HORIZON SCHOOL ROAD, SHANKAR PAWASHE CROSS ROAD, SHANKAR PAWASHE CROSS ROAD"}, {"id": "r37", "name": "SHANKAR PAWASHE CROSS ROAD, JEERE TOP ROAD, JB MEDICAL AGENCY ROAD"}, {"id": "r38", "name": "KHADEGOLAVALI ROAD, KHADEGOLAVALI ROAD, KHADEGOLAVALI ROAD, JB MEDICAL AGENCY ROAD"}, {"id": "r39", "name": "KHADEGOLAVALI ROAD, NARAYAN NAGAR ROAD"}, {"id": "r40", "name": "VITTHAL MANDIR ROAD, BRAHMAKUMARI SREET"}, {"id": "r41", "name": "JEERE TOP ROAD"}, {"id": "r42", "name": "JEERE TOP ROAD"}, {"id": "r43", "name": "ATMARAM NAGAR ROAD, BARDAN GALLI, BARDAN CROSS GALLI, OMKAR DARSHAN APARTMENT ROAD, OMKAR DARSHAN APARTMENT ROAD"}]}}, "E": {"2": {"routes": [{"id": "r28", "name": "P & T COLONY SERVICE ROAD, P & T COLONY SERVICE ROAD"}, {"id": "r29", "name": "P & T COLONY SERVICE ROAD, SEVEN SISTERS ROAD, SEVEN SISTERS NANU PARK ROAD, SWAMI SAMARTH MATH ROAD, P & T COLONY SERVICE ROAD"}, {"id": "r30", "name": "NANDIVALI ROAD, NANDIVALI ROAD, SARVODAYA ROAD, SARVODAYA CROSS ROAD, NANDIVALI ROAD"}, {"id": "r31", "name": "NANDIVALI ROAD, NANDIVALI ROAD, NANDIVALI ROAD, NANDIVALI GAON DEVI ROAD"}, {"id": "r32", "name": "BHOPAR ROAD, BHOPAR ROAD"}, {"id": "r33", "name": "BHOPAR ROAD, BHOPAR ROAD"}, {"id": "r34", "name": "MANPADA HIGHWAY, MANPADA HIGHWAY"}, {"id": "r35", "name": "MANPADA HIGHWAY, MANPADA HIGHWAY"}, {"id": "r36", "name": "STAR COLONY ROAD, START COLONY SOCIETY ROAD, STAR COLONY CROSS ROAD, ASHA ANGAN SOCIETY STREET, OZONNE FITNESS PLANET STREET, NAGODAS SMRUTI BLDG. MARG"}, {"id": "r37", "name": "KINGS CROSS ROAD, HOLY ANGELS SCHOOL ROAD, AVE.STREET, AVE.ST LANE, MANGAL DEEP LANE"}, {"id": "r38", "name": "PAWAR NAGAR ROAD, MANPADA CROSS ROAD, NIDDHI HEIGHTS LANE, SAMARH CLINIC STREET"}, {"id": "r39", "name": "MANPADA CROSS ROAD, RAVI KIRAN SOCIETY ROAD, RAVI KIRAN SOCIETY ROAD, RAVI KIRAN CROSS ROAD, RAVI KIRAN ROAD"}, {"id": "r40", "name": "CHURCH GALLI ROAD, ASHTAHDHATU SHIV MANDIR ROAD"}, {"id": "r41", "name": "SADGURU RESIDENCY STREET, BHOPAR CROSS ROAD"}, {"id": "r42", "name": "LODHA INTERNAL ROAD, LODHA INTERNAL ROAD, LODHA INTERNAL ROAD, ROTEX SERVICE ROAD"}, {"id": "r43", "name": "BHOPAR CROSS ROAD, NAVNEET NAGAR CROSS ROAD, NAVNEET NAGAR ROAD"}, {"id": "r44", "name": "DIVA MANPADA CROSS ROAD, LODHA REGENCY PARK MARG, PANACEA ROAD, LODHA GLOBAL PARK DOMBIVALI MARG"}, {"id": "r45", "name": "BHOPAR ROAD, BHOPAR ROAD"}, {"id": "r46", "name": "BHOPAR GAON ROAD, BHOPAR CROSS ROAD"}, {"id": "r47", "name": "BAMANDEV MANDIR ROAD, BAMANDEV MANDIR ROAD, BAMANDEV MANDIR ROAD, BHOPAR CROSS ROAD"}]}, "10": {"routes": [{"id": "r48", "name": "USARGHAR GAON ROAD, USARGHAR GAON CROSS ROAD, DOMBIVALI CITY FC-FOOTBALL ACADEMY STREET, VETALESHWAR MANDIR ROAD"}, {"id": "r49", "name": "USARGHAR GAON ROAD, USARGHAR GAON CROSS ROAD, DALVI WELDING & FABRICATION LANE, USARGHAR GAON GANPATI MANDIR ROAD"}, {"id": "r50", "name": "GHARIVALI GAON MAIN ROAD, GHARIVALI GAON CROSS ROAD"}, {"id": "r51", "name": "GHARIVALI GAON MAIN ROAD"}, {"id": "r52", "name": "KALYAN SHILPHATA CROSS LANE, PATIL HOUSE ROAD, KATAI GAON MAIN ROAD"}, {"id": "r53", "name": "HAJERI SHED RAOD, KATAI GAON ROAD, SHREE VITTHAL RAKHUMAI MANDIR ROAD, KATAI GAON CROSS ROAD, KATAI GAON MAIN ROAD"}, {"id": "r54", "name": "KOLEGAV ROAD, KOLEGAV ROAD, KOLEGAON DOMBIVALI ROAD"}, {"id": "r55", "name": "KOLEGAON DOMBIVALI ROAD, KOLEGAON DOMBIVALI ROAD"}, {"id": "r56", "name": "BADLAPUR-KATAI CROSS ROAD, ZP PRIMARY SCHOOL HEDUTANE ROAD"}, {"id": "r57", "name": "KATAI-PIPELINE CROSS ROAD"}, {"id": "r58", "name": "NILJE GAON  ROAD"}, {"id": "r59", "name": "NILJE GAON CROSS ROAD"}, {"id": "r60", "name": "LODHA CASA RIO GOLD ROAD"}, {"id": "r61", "name": "LODHA CASA RIO GOLD ROAD"}, {"id": "r62", "name": "LODHA CASA RIO GOLD ROAD, LODHA CASA RIO GOLD ROAD"}, {"id": "r63", "name": "LODHA CASA RIO CROSS ROAD, LODHA CASA RIO CROSS ROAD"}, {"id": "r64", "name": "CASS RIO MAIN ROAD"}, {"id": "r65", "name": "CASS RIO MAIN ROAD"}, {"id": "r66", "name": "KALYAN SHILPHATA ROAD"}, {"id": "r67", "name": "KALYAN SHILPHATA ROAD"}, {"id": "r68", "name": "KALYAN SHILPHATA ROAD"}, {"id": "r69", "name": "KALYAN SHILPHATA ROAD"}, {"id": "r70", "name": "KALYAN SHILPHATA ROAD"}, {"id": "r71", "name": "BADLAPUR-KATAI ROAD"}, {"id": "r72", "name": "BADLAPUR-KATAI ROAD"}, {"id": "r73", "name": "BADLAPUR-KATAI ROAD"}, {"id": "r74", "name": "BADLAPUR-KATAI ROAD"}, {"id": "r75", "name": "BADLAPUR-KATAI ROAD"}]}, "19": {"routes": [{"id": "r76", "name": "KALYAN ROAD"}, {"id": "r77", "name": "KALYAN ROAD"}, {"id": "r78", "name": "NEW KALYAN ROAD, KALYAN CROSS ROAD"}, {"id": "r79", "name": "KALYAN ROAD, KALYAN ROAD"}, {"id": "r80", "name": "NANASAHEB DHARMADHIKARI MARG"}, {"id": "r81", "name": "NANASAHEB DHARMADHIKARI MARG"}, {"id": "r82", "name": "NANASAHEB DHARMADHIKARI MARG, NANASAHEB DHARMADHIKARI MARG, NANASAHEB DHARMADHIKARI CROSS LANE"}, {"id": "r83", "name": "GYMKHANA ROAD, KENE GALLI ROAD, AMAR BUNGALOW ROAD, PUSHARAJ BUNGALOW ROAD, SHEYASH BUNGALOW ROAD"}, {"id": "r84", "name": "GYMKHANA ROAD, BHARAT NAGAR ROAD"}, {"id": "r85", "name": "AYYAPPA MANDIR ROAD (AZDEPADA ), STREET 1  A, STREET 4"}, {"id": "r86", "name": "SAI BABA MANDIR ROAD, DURGA MATA MANDIR ROAD, SAI BABA MANDIR CROSS ROAD, SAI MAULI CHS STREET, DURGA MATA MANDIR CROSS ROAD"}, {"id": "r87", "name": "AZADE GAON ROAD, DEVI CHOWK ROAD, AZADE GAON CROSS ROAD, MATOSHREE SEETABAI NIWAS ROAD"}, {"id": "r88", "name": "KALYAN CROSS ROAD, SAI BABA MANDIR ROAD, VIGHNANTAK KRUPA ROAD"}, {"id": "r89", "name": "KALYAN CROSS ROAD, SHIV MANDIR MIDC ROAD, NANASAHEB DHARMADHIKARI CROSS LANE, NANASAHEB DHARMADHIKARI CROSS LANE"}, {"id": "r90", "name": "NEW KALYAN ROAD, NEW KALYAN ROAD"}, {"id": "r91", "name": "NEW KALYAN ROAD, NEW KALYAN ROAD"}, {"id": "r92", "name": "SERVICE ROAD, SERVICE ROAD"}, {"id": "r93", "name": "KALYAN SHILPHATA ROAD, KALYAN SHILPHATA ROAD"}, {"id": "r94", "name": "KALYAN SHILPHATA ROAD"}, {"id": "r95", "name": "GHODA MAIDAN ROAD, GANPATI VISRJAN TALAO CROSS ROAD, ROAD NUMBER 3"}, {"id": "r96", "name": "GANPATI VISRJAN TALAO ROAD, MILAP NAGAR CROSS ROAD, ROAD NUMBER 3, ROAD NUMBER 3 CROSS"}, {"id": "r97", "name": "ROAD NUMBER 5, ROAD NUMBER 20, DUBEY DAIRY GALLI ROAD, MILAP NAGAR ROAD, MILAP NAGAR ROAD"}, {"id": "r98", "name": "MAHATMA HOSPITAL ROAD, ROAD NUMBER 6 CROSS, ROAD NUMBER 6, ROAD NUMBER 5 CROSS, ROAD NUMBER 20 CROSS, ROAD NUMBER 20"}, {"id": "r99", "name": "MAMATA HOSPITAL ROAD, KAMAD HOSPITAL GALLI, ASHOK KADAM MARG"}, {"id": "r100", "name": "SIDHHIVINAYAK GANPATI MANDIR ROAD, MANAPADA ROAD, ROAD NUMBER 11, ROAD NUMBER 10"}, {"id": "r101", "name": "SHIVAI BALAK VIDYAMANDIR ROAD, SHIVAI BALAK VIDYAMANDIR ROAD, ROAD NUMBER 10"}, {"id": "r102", "name": "SAVITRIBAI PHULE ROAD"}, {"id": "r103", "name": "SAVITRIBAI PHULE ROAD"}]}, "31": {"routes": [{"id": "r1", "name": "KALYAN SHILPHATA CROSS ROAD, ASHIRWAD HOSPITAL STREET, MANGAON ZILLA PARISHAD SCHOOL ROAD, MANGAON MAIN ROAD, OMKAR ABHIMANYU LANE, OMKAR ABHIMANYU CROSS LANE, KALYAN SHIL ROAD"}, {"id": "r2", "name": "KALYAN SHILPHATA CROSS ROAD, KALYAN SHILPHATA CROSS ROAD, KALYAN SHILPHATA CROSS ROAD, SHREE BHAGWATI BHAGWAN MANDIR, EKVEERA  AAI  APARTMENT STREET, EKVEERA  AAI  APARTMENT CROSS STREET"}, {"id": "r3", "name": "KHONI UMBHARLI  GAON KALYAN SHIL ROAD, SB VAZE SCHOOL MANPADA ROAD, GRUNWALD PHARMACEUTICALS, KHONI UMBARLI GAON KALYAN SHIL CROSS ROAD"}, {"id": "r4", "name": "MANSI APARTMENT ROAD, KHONI UMBHARLI GAON KALYAN SHIL ROAD"}, {"id": "r5", "name": "MHATRE NAGAR ROAD, MHATRE NAGAR ROAD, BIROBA DARSHAN STREET, KALYAN SHILPHATA CROSS ROAD"}, {"id": "r6", "name": "SONARPADA MAIN ROAD, SHIVAY BUNGLOW STREET, BESIDE SAVITRI APARTMENT LANE"}, {"id": "r7", "name": "SHIVAY BUNGLOW STREET, SONARPADA CROSS LANE, SONARPADA MAIN ROAD"}, {"id": "r8", "name": "SHANKARA NAGAR ROAD, NR BY SHIV SAI RESIDENCY, SAI SADAN BUNGLOW ROAD, SHANKARA NAGAR COSS ROAD, SWAMI SAMARTH TEMPLE ROAD"}, {"id": "r9", "name": "SHANKARA NAGAR ROAD, SWAMI SAMARTH TEMPLE ROAD, SHANKARA NAGAR COSS ROAD, SAI ORCHID DAWADI ROAD"}, {"id": "r10", "name": "REGENCY ESTATE ROAD, REGENCY ESTATE ROAD"}, {"id": "r11", "name": "REGENCY ESTATE ROAD, REGENCY ESTATE ROAD, REGENCY ESTATE ROAD"}, {"id": "r12", "name": "DNS BANK ROAD"}, {"id": "r13", "name": "KALYAN SHILPHATA CROSS ROAD"}, {"id": "r14", "name": "GYMKHANA ROAD, GYMKHANA CROSS ROAD, SAGARLI ROAD, DURGA MATA MANDIR ROAD"}, {"id": "r15", "name": "STREET 3B, STREET 3B CROSS, SAI SAMARTH ROAD, STREET 3B CROSS LANE, STREET 1B"}, {"id": "r16", "name": "GYMKHANA ROAD, SIDDHIVINAYAK GANAPTI MANDIR ROAD, SERVICE ROAD CROSS LANE, SERVICE ROAD"}, {"id": "r17", "name": "STREET 2, GOL MAIDAN ROAD"}, {"id": "r18", "name": "SAI BABA MANDIR ROAD, GANPATI MANDIR LAKE ROAD, KALYAN SHILPHATA CROSS ROAD, MEHTA CORPORATION MARG"}, {"id": "r19", "name": "PIMPLESHWAR MANDIR ROAD, MANPADA INTERNAL ROAD"}, {"id": "r20", "name": "KALYAN SHILPHATA ROAD"}, {"id": "r21", "name": "KALYAN SHILPHATA ROAD"}, {"id": "r22", "name": "KALYAN SHILPHATA ROAD"}, {"id": "r23", "name": "KALYAN SHILPHATA ROAD"}, {"id": "r24", "name": "KALYAN SHILPHATA ROAD"}, {"id": "r25", "name": "MANPADA ROAD, MANPADA ROAD"}, {"id": "r26", "name": "MANPADA ROAD"}, {"id": "r27", "name": "GAONDEVI MANDIR SONARPADA ROAD, PRAKASH POOJA BHANDAR ROAD SONARPADA"}]}}, "F": {"18": {"routes": [{"id": "r1", "name": "BAPU DATAR MARG, BAPU DATAR MARG, NEHRU ROAD, MAHILA SAMITI ENGLISH SCHOOL ROAD, KMC ROAD, NEHRU CROSS ROAD, VALJI GUPTE MARG"}, {"id": "r2", "name": "GANESH MANDIR ROAD, ROAD NUMBER-2, LOTTUS CLINIC, CHAUDHARY HOUSE GALLI"}, {"id": "r3", "name": "VALABH BHAI PATEL ROAD, ROAD NO 7, INDRA NAGAR ROAD, PENDSE NAGAR GALLI NO 6, PENDSE NAGAR GALLI NO 5, PENDSE NAGAR GALLI NO 4, PENDSE NAGAR GALLI NO 3"}, {"id": "r4", "name": "CHEDDA ROAD, CHEDDA CROSS ROAD, SAMBHAJI PATH, CHEDDA CROSS ROAD -2"}, {"id": "r5", "name": "VALABH BHAI PATEL ROAD, VALABH BHAI PATEL ROAD, VALABH BHAI PATEL CROSS ROAD, BAPU DATAR CROSS ROAD, NEHRU ROAD, THAKURLI STATION ROAD BRG"}, {"id": "r6", "name": "ROAD NUMBER-1, ROAD NUMBER-2, NAVRE PURANIK ROAD, RAGHUNARAYAN ROAD"}, {"id": "r7", "name": "GURU MANDIR ROAD, SAI BABA MANDIR, KMC  NALA ROAD"}]}, "25": {"routes": [{"id": "r8", "name": "KALYAN ROAD, INDIRA NAGAR ROAD, INDIRA NAGAR ROAD"}, {"id": "r9", "name": "TRIMURTI NAGAR ROAD, TRIMURTI NAGAR ROAD, TRIMURTI NAGAR ROAD"}, {"id": "r10", "name": "MIDC ROAD, SHIV MANDIR ROAD"}, {"id": "r11", "name": "SAVITRIBAI PHULE ROAD, NEW KALYAN ROAD, NEW KALYAN ROAD, NEW KALYAN ROAD"}, {"id": "r12", "name": "MIDC ROAD, MASHUSUDAM RESIDENCY ROAD, HANUMAN MANDIR ROAD, RIDDHI PARK SOCIETY ROAD"}, {"id": "r13", "name": "THAKUTR STATION ROAD, THAKUTR STATION CROSS ROAD, HANUMAN MANDIR ROAD, KALYAN ROAD"}, {"id": "r14", "name": "SANT WADI ROAD, KALYAN ROAD"}, {"id": "r15", "name": "BALAJI NAGAR ROAD, 90 FEET CROSS ROAD, DAWAT HOTEL GALLI (BALAJI NAGAR)"}, {"id": "r16", "name": "SMASHAN BHOOMI ROAD, SHIV MANDIR TALAV ROAD"}, {"id": "r17", "name": "SHREE CHAMUNDA GARDEN ROAD, 90 FEET CROSS ROAD"}, {"id": "r18", "name": "90 FEET ROAD, 90 FEET ROAD"}, {"id": "r19", "name": "90 FEET ROAD, 90 FEET ROAD"}, {"id": "r20", "name": "90 FEET ROAD, 90 FEET ROAD"}, {"id": "r21", "name": "90 FEET ROAD (WITH FOOTPATH)"}, {"id": "r22", "name": "90 FEET ROAD (WITH FOOTPATH)"}, {"id": "r23", "name": "NEW KALYAN ROAD"}, {"id": "r24", "name": "BHOIR WADI RD, QUTBI ROAD"}, {"id": "r25", "name": "BHOIR WADI RD"}, {"id": "r26", "name": "SHANKHESHWAR ROAD (HIRA NAGAR), SHANKHESHWAR ROAD"}, {"id": "r27", "name": "KHAMBAL PADA ROAD"}, {"id": "r28", "name": "KHAMBAL PADA ROAD"}, {"id": "r29", "name": "HANUMAN MANDIR ROAD, VITTHAL MANDIR CROSS RD"}, {"id": "r30", "name": "VITTHAL MANDIR ROAD, HANUMAN MANDIR CROSS RD, SAI NIWAS CROSS RD"}, {"id": "r31", "name": "MANJUNATHA COLLEGE ROAD, GULMOHAR GALLI ROAD"}, {"id": "r32", "name": "LAXMI PARK SOCIETY CROSS ROAD, LAXMI PARK SOCIETY CROSS ROAD, VISHESH HOSPITAL RD, VISHESH HOSPITAL RD"}, {"id": "r33", "name": "VIRAT GRANDEUR RD"}, {"id": "r34", "name": "SHANKESHWAR CROSS ROAD"}, {"id": "r35", "name": "SHANKESHWAR CROSS ROAD"}, {"id": "r36", "name": "VIRAT GRANDEUR RD"}]}, "33": {"routes": [{"id": "r37", "name": "AYODHYA NAGRI RD, SHITLA DEVI MANDIR RD, AYODHYA NAGRI RD, PATIL WADI ROAD"}, {"id": "r38", "name": "GOPAL NAGAR ROAD NO 2, GOPAL NAGAR GALLI NO 3, BAMBU GALLI, PAKHARLI GAON GALLI NO 1, PAKHARLI GAON GALLI NO 2"}, {"id": "r39", "name": "SANT NAMDEV ROAD, JIJAI NAGAR ROAD, GSB SCHOOL GALLI ROAD, YAMUNA ARJUN SOCIETY ROAD, ARIHANT MEDICAL GALLI ROAD, SANTOSHI MATA MANDIR ROAD"}, {"id": "r40", "name": "GOSHALA ROAD, PRAKASH VIDHYALAY GALLI NO 1 ROAD, PRAKASH VIDHYALAY GALLI NO 2 ROAD, SHITLA DEVI MANDIR ROAD, BHIND SHEETLA MATA MANDIR GALI INTERNAL ROAD"}, {"id": "r41", "name": "ROKEL GALLI ROAD, ROKEL GALLI NO 1 ROAD, ROKEL GALLI NO 1 ROAD, ROKEL GALLI NO 2 ROAD, AMBIKA NAGAR ROAD, CHITRA DAIRY ROAD"}, {"id": "r42", "name": "SANT NAMDEV ROAD, UDVIKAR GALLI ROAD, SAI BABA MANDIR ROAD, VITTHAL MANDIR ROAD"}, {"id": "r43", "name": "TILAK NAGAR ROAD, COMMENT GALLI ROAD, ALANKAR CHS ROAD, BORKAR GALLI ROAD, SONAL NIKETAN GALLI ROAD, BORKAR GALLI CROSS ROAD"}, {"id": "r44", "name": "GOPAL NAGAR ROAD NO 1, OM DATTA  APPARTMENT ROAD, TILAK NAGAR ROAD, VISHNU SHAKUNTALA GALLI ROAD, SAWALI BUNGALOW ROAD"}, {"id": "r45", "name": "PATHARLI RD, PATHARLI RD, SHREE RAM GALAXY GALLI, BALAJI MANDIR RD, BALAJI MANDIR CROSS ROAD, PATIL WADI ROAD, SHRI GEETANJALI CHS RD"}, {"id": "r46", "name": "MANPADA ROAD, KOHINOOR GALLI, MANPADA ROAD, VISHAL HOTAL RD"}, {"id": "r47", "name": "PATHARLI ROAD, PATHARLI ROAD, KASHINATH PATIL CHAWL ROAD, AYODHYA NAGARI ROAD, RAVI DARSHAN LANE, SAKHAR LANE ROAD"}, {"id": "r48", "name": "PATHARLI ROAD, PATHARLI ROAD, VAMAN GALLI ROAD, SHIVANJALI GALLI ROAD, TIRUPATI DARSHAN CHS ROAD, CHAMUNDA MEDICAL GALLI"}, {"id": "r49", "name": "PATHARLI ROAD, PATHARLI ROAD, SARVODAY NAGAR ROAD, SARVODAY NAGAR ROAD, BSUP GALLI ROAD"}, {"id": "r50", "name": "KALYAN ROAD, GOPAL NAGAR GALLI NO 3, GYMKHANA ROAD, BHARAT NAGAR GALLI -1, BHARAT NAGAR GALLI -2"}, {"id": "r51", "name": "RAILWAY COLONY ROAD"}, {"id": "r52", "name": "SHIV MANDIR ROAD, MANOSHANTI ROAD, SHREE MURLI ROAD, DATTA MANDIR ROAD"}]}, "37": {"routes": [{"id": "r53", "name": "NEHRU ROAD, NEHRU ROAD, BABASAHEB JOSHI PATH"}, {"id": "r54", "name": "PHADKE ROAD, PHADKE ROAD, SAVARKAR ROAD"}, {"id": "r55", "name": "SHAHID BHAGAT SINGH ROAD, AGARKAR ROAD, BRAHMAN LANE ROAD"}, {"id": "r56", "name": "MANPADA ROAD, TATA POWER LINE ROAD"}, {"id": "r57", "name": "CHIMANY GALLI ROAD, PHADKE CROSS ROAD, SHAHID BHAGAT SINGH CROSS ROAD, SHIVSENA MADHYAVARTI SHAKHA GALLI, VOLGA GALLI, ACHARYA TULSI MARG, TATA POWER CROSS LANE"}, {"id": "r58", "name": "DR. R. P. ROAD, DR. R. P. ROAD"}, {"id": "r59", "name": "LALA LAJPAT RAI ROAD, KHANDKAR LANE, TILAK NAGAR ROAD, APPA MOKSHE MARG"}, {"id": "r60", "name": "TILAK ROAD, NIMKAR HALL ROAD, GADKARI PATH, SAVARKAR CROSS ROAD, TILAK CROSS ROAD"}, {"id": "r61", "name": "TILAK ROAD, SHIVAJI PATH, MUKHARJI ROAD_x000D_, MUKHARJI CROSS ROAD, SHIVAJI PATH"}, {"id": "r62", "name": "TILAK ROAD, GOMANTAK GALLI, MOTILAL NEHRU ROAD, BABA SAHEB JOSHI PATH"}, {"id": "r63", "name": "AMADAR GALLI, SAVARKAR ROAD, GANESH MANDIR ROAD"}, {"id": "r64", "name": "SAVARKAR ROAD, DR. MUKHERJEE ROAD, DR. MUKHERJEE CROSS ROAD, GOMANTAK GALLI, PITRE ROAD"}, {"id": "r65", "name": "DOMBIVLI SKYWALK, BHAGATSING CROSS LANE, AGARKAR CROSS LANE"}]}}, "G": {"11": {"routes": [{"id": "r1", "name": "VITTHAL MANDIR ROAD, TANDAN ROAD, DR R P RD"}, {"id": "r2", "name": "VITTHAL MANDIR CROSS RD, NERURKAR ROAD, NERURKAR ROAD, NERURKAR ROAD, NITIN PATIL OFFICE ROAD, DATTA NAGAR VASAHAR ROAD"}, {"id": "r3", "name": "TUKARAM NAGAR ROAD, CHAKKI GALI, BHAGAT WADI GALLI, SAGAR CHS ROAD, TUKARAM NAGAR CROSS ROAD"}, {"id": "r4", "name": "OLD AYRE ROAD, WATER TANK RAOD, BAITHAK HALL ROAD, OM SHIV SUDAMA ROAD, GAONDEVI ROAD"}, {"id": "r5", "name": "NAGESHWAR NAVNATH MANDIR ROAD, NAGESHWAR NAVNATH MANDIR ROAD, MADAVI COLLAGE ROAD, HAJERI SHED ROAD, RK BAZAR ROAD"}, {"id": "r6", "name": "KOPAR STATION ROAD, DHP IMPERIAL ROAD, AYRE GAON ROAD"}, {"id": "r7", "name": "AYRE GAON ROAD, TAWARIPADA ROAD"}, {"id": "r8", "name": "AYRE GAON SAMSHAN BHOOMI ROAD, BALAJI GARDEN ROAD"}, {"id": "r9", "name": "JYOTI NAGAR ROAD, BIO GAS ROAD, KK CHAWL ROAD, DURGA MATA MANDIR ROAD"}, {"id": "r10", "name": "MARATHI SCHOOL ROAD, ANADI BAI ROAD, TUKARAM NAGAR ROAD, SUNDARA COMPLEX ROAD"}]}, "28": {"routes": [{"id": "r11", "name": "KOPAR STATION ROAD, KOPAR STATION ROAD, KOPAR STATION ROAD, KOPAR STATION ROAD, KOPAR STATION ROAD, KOPAR STATION ROAD"}, {"id": "r12", "name": "NEW AYRE RD, NEW AYRE RD, 5 NO GALLI, NEW AYRE CROSS RD, NEW AYRE CROSS - 1RD"}, {"id": "r13", "name": "ASHTAVINAYAK MANDIR RD, 3-RD CROSS RD, 3-RD CROSS - 1 RD, MADAVI COLLAGE ROAD, 4-TH CROSS RD"}, {"id": "r14", "name": "RAJAJI PATH ROAD, 2-ND CROSS RD, PATKAR GALLI"}, {"id": "r15", "name": "CHIPLUNKAR PATH RD, CHIPLUNKAR PATH CROSS - 1 RD, CHIPLUNKAR PATH CROSS - 2 RD, CHIPLUNKAR PATH CROSS RD"}, {"id": "r16", "name": "KELKAR ROAD, SKYWALK STAIRCASE, SKYWALK STAIRCASE, TANDON RD, ATYE AVE SOCIETY RD"}, {"id": "r17", "name": "KELKAR ROAD, KELKAR CROSS ROAD, MANPADA ROAD"}, {"id": "r18", "name": "SWAMI VIVEKANAND ROAD, SWAMI VIVEKANAND CROSS ROAD, PT MALVIA ROAD, SHIV MANDIR ROAD"}, {"id": "r19", "name": "SHIV MANDIR RD, TATA CROSS ROAD, CHITTARANJAN DAS RD, TATA POWER LINE RD"}, {"id": "r20", "name": "DR. R.P. RD, DR. R.P. CROSS RD, RAGHUVIR NAGAR ROAD, RAGHUVIR NAGAR CROSS ROAD, JAIN MANDIR ROAD"}, {"id": "r21", "name": "SHIV MANDIR RD, OPP TRAFIC GARDEN RD, DNC ROAD, DNC CROSS ROAD, DNC CROSS - 1 ROAD, DNC CROSS - 2 ROAD"}, {"id": "r22", "name": "NERURKAR ROAD, JAIN MANDIR ROAD, CHAKI GALLI ROAD, PATIL WADI ROAD, DNC ROAD"}, {"id": "r23", "name": "MANPADA ROAD, NERURKAR ROAD"}, {"id": "r24", "name": "RAJAJI PATH ROAD"}, {"id": "r25", "name": "CHIPLUNKAR PATH RD, CHIPLUNKAR PATH CROSS RD, MD THAKUR ROAD"}]}, "39": {"routes": [{"id": "r26", "name": "MANPADA ROAD"}, {"id": "r27", "name": "MODEL SCHOOL PANDURANG WADI ROAD, HARDIKAR HOSPITAL ROAD, HARDIKAR HOSPITAL ROAD, HARDIKAR HOSPITAL ROAD"}, {"id": "r28", "name": "P&T COLONY RD, P&T COLONY CROSS RD, P&T COLONY CROSS RD"}, {"id": "r29", "name": "P&T COLONY RD, MAYEKAR GALLI ROAD, GANESH NAGAR ROAD, AYYAPA GALLI ROAD, P&T COLONY ROAD"}, {"id": "r30", "name": "GANDHI NAGAR CROSS - 3 RD, GANDHI NAGAR CROSS - 1 RD, GANDHI NAGAR CROSS RD"}, {"id": "r31", "name": "GUNNERS RD, TARTE OFFICE ROAD, GUNNERS CROSS RD, SWAMI SHALA  RD, ASHTA GANESH GARDEN RD"}, {"id": "r32", "name": "NANDIVALI CROSS RD, NANDIVALI CROSS - 1 RD, NANDIVALI CROSS - 2 RD, NANDIVALI CROSS - 3 RD, EKTA NAGAR ROAD, EKTA NAGAR ROAD"}, {"id": "r33", "name": "NERURKAR CROSS ROAD, JAIN MANDIR ROAD, PANDURANG WADI 1ST LANE RD, PANDURANG WADI 1ST LANE CROSS RD, NAV POONAM APARTMENT RD"}, {"id": "r34", "name": "NANDEVALI ROAD"}, {"id": "r35", "name": "NANDIVALI CROSS RD, NANDIVALI CROSS RD, MARUTI MAHADEV NAGAR RD, ONE VASI AASHRAM ROAD, WAGMARE GALLY"}, {"id": "r36", "name": "SUNIL NAGAR ROAD"}, {"id": "r37", "name": "HOLLOWAY RD, SUNUL NAGAR RD, MARUTI MAHADEV NAGAR RD, SUNUL NAGAR RD, PAPPU MHATRE ROAD, CHANDU VADAPAV SHOP RD"}, {"id": "r38", "name": "NIVARA BUNGALOW RD, ASHAPURA DHAM MANDIR ROAD, DNC BACK ROAD, NEELPADMA BANQUTE HALL RD"}, {"id": "r39", "name": "DNC ROAD, DNC BACK SIDE ROAD, DNC BACK SIDE ROAD"}, {"id": "r40", "name": "MODEL SCHOOL ROAD, MODEL SCHOOL PANDURANG WADI ROAD, FISH GALLI ROAD"}, {"id": "r41", "name": "GANDHI NAGAR RD, GANDHI NAGAR CROSS - 4 RD, GANDHI NAGAR CROSS - 2 RD"}, {"id": "r42", "name": "NANDEVALI ROAD"}, {"id": "r43", "name": "SUNIL NAGAR ROAD, SUNIL NAGAR ROAD"}]}}, "H": {"3": {"routes": [{"id": "r1", "name": "KOPAR ROAD, SBM TOILET ROAD, RAGHAVENDRA SWAMI MUTT ROAD, KOPAR CROSS ROAD, KOPAR STATION ROAD, KOPAR STATION ROAD, RIDDHI SIDDHI BUILDING ROAD"}, {"id": "r2", "name": "KOPAR ROAD, ZIPRYA TOWER ROAD, KOPAR RAILWAY STATION RAOD, BNP COMPLEX ROAD, SHIV MANDIR ROAD"}, {"id": "r3", "name": "RAJ KAMAL SUPER MARKET ROAD, GAON DEVI MANDIR ROAD, HANUMAN MANDIR ROAD, KOPAR SAMSHANBHOOMI ROAD"}, {"id": "r4", "name": "TELKOSWADI ROAD, NEMADE GALLI ROAD"}, {"id": "r5", "name": "TELKOSWADI ROAD, YASHWANT NAGAR ROAD"}, {"id": "r6", "name": "SAKHARAM NAGAR ROAD, OPEN GYM ROAD, KAILAS NAGAR ROAD, SENIOR CITIZEN -1, SENIOR CITIZEN -2, SENIOR CITIZEN -3, SUSWAGATAM BAR ROAD"}, {"id": "r7", "name": "JUNI DOMBIVALI GAON ROAD"}, {"id": "r8", "name": "JUNI DOMBIVALI ROAD, RAM MANDIR ROAD GALLI -1, RAM MANDIR ROAD GALLI -2, RAM MANDIR ROAD GALLI -3, EKVEERA NAGAR ROAD"}, {"id": "r9", "name": "MOTEGAON ROAD, VETAL NAGAR ROAD, KHANDOBA MANDIR GALLI, RAGAI MANDIR ROAD"}, {"id": "r10", "name": "RETI BANDAR RAOD, MOTEGAON GANESH GHAT ROAD, MANKOLI BRG CROSS ROAD"}, {"id": "r11", "name": "RETI BANDAR RAOD, MANKOLI BRG CROSS ROAD"}, {"id": "r12", "name": "KALU NAGAR ROAD, PANDIT DIN DAYAL ROAD, DNS BANK ROAD, KALU NAGAR ROAD, PARVATIBAI SADAN RD"}, {"id": "r13", "name": "JUNI DOMBIVALI ROAD, JNANODAYA SCHOOL ROAD, PRIYANKA SOCIETY ROAD"}, {"id": "r14", "name": "KOPAR MOTHEGAON NEW ROAD"}, {"id": "r15", "name": "KOPAR MOTHEGAON NEW ROAD"}, {"id": "r16", "name": "KOPAR MOTHEGAON NEW ROAD"}, {"id": "r17", "name": "KOPAR MOTHEGAON NEW ROAD"}, {"id": "r18", "name": "MOTAGAON GANESH GHAT ROAD"}]}, "4": {"routes": [{"id": "r19", "name": "GHAS GALLI ROAD, VADAR GALLI CROSS - 1 ROAD, STATE BANK OF INDIA RD, VADAR GALLI CROSS ROAD, VADAR GALLI ROAD"}, {"id": "r20", "name": "KOPAR ROAD, KOPAR RD E-WEST FLYOVER, KOPAR CROSS RD, KOPAR CROSS-1 RD, KOPAR ROAD"}, {"id": "r21", "name": "KOPAR ROAD, KOPAR CROSS-3 RD, NUKKAD PAV BHAJI RD, RAM KRISHANA HARI CHS RD"}, {"id": "r22", "name": "KOPAR ROAD, KOPAR CROSS-2 RD, SHREE SAMARTHA PLAZA RD"}, {"id": "r23", "name": "SANTOSHI MATA MANDIR ROAD, SAHYADRI MITRA MANDAL RD, SAWAMI SADGURU ROAD, SAHYADRI MITRA MANDAL CROSS RD"}, {"id": "r24", "name": "VASHI BUS STOP GALLI ROAD, PAWSHE GALLI ROAD, SOUTH INDIAN GALLI ROAD, AISHWARYA CHS RD"}, {"id": "r25", "name": "VASHI BUS STOP CROSS GALLI, NAKUL PATIL GALLI ROAD, NAKUL PATIL GALLI CROSS ROAD, NEW UDDHAV NIWAS RD, NEW UDDHAV ROSD"}, {"id": "r26", "name": "JUNA DOMBIVALI ROAD, MODEL ENGLISH SCHOOL RD, MUMBRA DEVI RD, RAM MANDIR CROSS - 1 RD"}, {"id": "r27", "name": "POOJA CLASSES ROAD, RAM MANDIR ROAD, RAM MANDIR CROSS ROAD, WATER TANK CLEANING ROAD"}, {"id": "r28", "name": "ELEPHAMT FOUNTAIN RD, GOKUL HOSPITAL RD, GOKUL HOSPITAL RD, GANPATI MANDIR PATH RD, GANPATI MANDIR RD"}, {"id": "r29", "name": "SHIV SAI BABA TEMPLE RD, S.K. SMRUTI APARTMENT RD, NEAR RAM MANDIR RD, RAM MANDIR RD"}, {"id": "r30", "name": "UNITY SMALL FINANCE RD, SHIV SENA DIPESH MAHATRE RD, THAKUR WADI CROSS ROAD, SHIV SAI BABA TEMPLE CROSS RD"}, {"id": "r31", "name": "SHIV SAI BABA TEMPLE RD, SHIV SAI BABA TEMPLE CROSS RD, OM GAJANAN POOJA RD, THAKURWADI KDMC HEALTH RD, TRIBHAVAN SOCIETY RD, SAHAKARI BANK RD"}, {"id": "r32", "name": "PANDIT DINDAYAL ROAD, SHIV SENA DIPESH MAHATRE RD"}, {"id": "r33", "name": "PANDIT DINDAYAL ROAD, PANDIT DINDAYAL CROSS ROAD"}, {"id": "r34", "name": "PANDIT DINDAYAL ROAD"}, {"id": "r35", "name": "PHOENIX CLUB RD, ABHUDAY BANK RD, SAMAJ MANDIR ROAD, DATTA MANDIR RD"}, {"id": "r36", "name": "JIDDA MATERNITY HOSPITAL CROSS RD, JADHAV WADI ROAD, AISHWARYA CHICKEN CENTER RD, AVDHOOT SOCIETY ROAD"}]}, "7": {"routes": [{"id": "r58", "name": "RETI BUNDER CROSS ROAD, GANESH GHAT ROAD"}, {"id": "r59", "name": "UMESH NAGAR RD, UMESH NAGAR CROSS RD, UMESH NAGAR CROSS - 1 RD, UMESH NAGAR CROSS - 2 RD, UMESH NAGAR CROSS - 3 RD, UMESH NAGAR CROSS - 4 RD"}, {"id": "r60", "name": "MHATRE GARDEN ROAD, MHATRE GARDEN ROAD, RETI BUNDER CROSS ROAD"}, {"id": "r61", "name": "SANT TUKARAM MAHARAJ RD, SANT TUKARAM MAHARAJ CROSS RD, SUSNASKAR COACHING CLASSES RD, GANESH TEMPLE RD"}, {"id": "r62", "name": "SUSNASKAR COACHING CLASSES RD, SUSNASKAR COACHING CLASSES RD, SUSNASKAR COACHING CLASSES RD, SUSNASKAR COACHING CLASSES RD"}, {"id": "r63", "name": "MORYA MASALA MART RD, MORYA MASALA MART CROSS RD, GANDHI PATI JWELLERS RD, RETI BUNDER RD"}, {"id": "r64", "name": "PARMAR NOVELTY RD, MAHATMA PHULE CROSS RD"}, {"id": "r65", "name": "GANESH GHAT ROAD"}, {"id": "r66", "name": "GANESH GHAT ROAD, GANESH GHAT ROAD"}, {"id": "r67", "name": "JAGDAMBA MANDIR RD, SREE JAGDAMBA MANDIR RD"}, {"id": "r68", "name": "MAHALAXMI CHOWK RD, SAI MANDIR ROAD, MAHALAXMI CHOWK RD, OMKAR PARK RD"}, {"id": "r69", "name": "DAILYSIS CENTER ROAD, DAILYSIS CENTER ROAD, MAHALAXMI CHOWK RD"}, {"id": "r70", "name": "RETI BUNDER MARG, RETI BUNDER MARG"}, {"id": "r71", "name": "GHANSHYAM GUPTE ROAD, HAGELI SADELI RD"}, {"id": "r72", "name": "PANDIT DINDAYAL ROAD, PANDIT DINDAYAL CROSS - 1 ROAD, PANDIT DINDAYAL CROSS - 2 ROAD, PANDIT DINDAYAL CROSS - 3 ROAD"}, {"id": "r73", "name": "RETI BUNDER CROSS ROAD"}]}, "8": {"routes": [{"id": "r74", "name": "RAJU NAGAR CROSS RD, VIJAY SOCIETY RD"}, {"id": "r75", "name": "SWAMI VIVEKAND RD, MARUTI MANDIR CROSS RD, EVRESHT SOCIETY ROAD, JAY AMBE BOOK CENTER RD"}, {"id": "r76", "name": "JAY AMBE BOOK CENTER RD, JAMA MASJID RD, KARVE RD, KARVE RD"}, {"id": "r77", "name": "GOKHALE ROAD, KARVE ROAD, KARVE ROAD"}, {"id": "r78", "name": "MAHATMA GANDHI ROAD"}, {"id": "r79", "name": "MAHATMA GANDHI ROAD"}, {"id": "r80", "name": "NAVPADA GAONVDEVI MANDIR ROAD, SUBHASH ROAD, NAVAPADA MANDIR ROAD, NAVPADA GAONVDEVI MANDIR RD"}, {"id": "r81", "name": "SUBHASH RD, GANPATI MANDIR ROAD, MHATRE WADI ROAD, MHATRE WADI ROAD"}, {"id": "r82", "name": "SUBHASH CHANDRA BHOS ROAD, SUBHASH CHANDRA BHOS ROAD"}, {"id": "r83", "name": "SUBHASH CHANDRA BHOS ROAD, SUBHASH CHANDRA BHOS ROAD"}, {"id": "r84", "name": "MAHATMA PHULE ROAD, MAHATMA PHULE ROAD, JADHAV WADI LANE, SHANKAR MANDIR LANE"}, {"id": "r85", "name": "MAHATMA PHULE ROAD, GAYKWAD WADI ROAD, MAHATMA PHULE CROSS RD, CHINAR BUNGALOW ROAD"}, {"id": "r86", "name": "GUPTE ROAD, BADAM GALLI ROAD, GUPTE ROAD, APPLE HOSPITAL ROAD"}, {"id": "r87", "name": "NANA SHANKAR SHET ROAD, JAYANT COLONY ROAD, AVDHOOT SOCIETY, CITY HOSPITAL LANE"}, {"id": "r88", "name": "GUPTE ROAD, JOSHI WADI ROAD, GUPTE ROAD"}, {"id": "r89", "name": "JAY HIND COLONY ROAD, PANDIT DINDAYAL ROAD"}, {"id": "r90", "name": "JAY HIND COLONY ROAD, JAY HIND COLONY ROAD"}, {"id": "r91", "name": "JAI HIND COLONY MAIN ROAD, JAI HIND COLONY ROAD NO 2, JAI HIND COLONY ROAD NO 3"}, {"id": "r92", "name": "VISHNUNAGAR POST OFFICE ROAD, RETI BANDAR ROAD, MAHATMA PHULE ROAD, KHETI ROAD"}, {"id": "r93", "name": "MAHATMA PHULE ROAD, VISHNUNAGAR POST OFFICE RD, DATTA MANDIR ROAD, KUNDLIK BHAVAN ROAD"}, {"id": "r94", "name": "GOKHALE ROAD, GOKHALE ROAD, SAI SADAN BULDING RD, MHATRE WADI ROAD"}, {"id": "r95", "name": "GOKHALE ROAD, GOKHALE CROSS ROAD, GOKHALE ROAD"}]}, "27": {"routes": [{"id": "r37", "name": "52 CHAWL ROAD, 52 CHAWL ROAD, 52 CHAWL ROAD"}, {"id": "r38", "name": "THAKURLI STATION RD, THAKURLI STATION CROSS RD"}, {"id": "r39", "name": "VEER JIJA MATA ROAD"}, {"id": "r40", "name": "52 CHAWL ROAD, GANESH NAGAR ROAD, GANESH NAGAR CROSS ROAD, GANESH NAGAR CROSS - 1 ROAD"}, {"id": "r41", "name": "TRIMURTI SABHA HALL RD, TRIMURTI NAGAR ROAD, TRIMURTI SABHA HALL CROSS - 1 RD, TRIMURTI SABHA HALL CROSS RD"}, {"id": "r42", "name": "SHIVAJI PATIL 2 RD, SHIVAJI PETH 2, SHIVAJI PETH 2"}, {"id": "r43", "name": "VIJAY SOCIETY RD, KAJAL ARCADE SOCIETY RD, OXFORD HIGH SCHOOL RD"}, {"id": "r44", "name": "HOLY CROSS ENGLISH SCHOOL RD"}, {"id": "r45", "name": "DEVRAM WADI ROAD, SUBHASH ROAD, SUBHASH ROAD, GANESH NAGAR ROAD, GANESH NAGAR ROAD"}, {"id": "r46", "name": "MAHALAXMI CHOWK RD, GARIBACHA WADA ROAD, GARIBACHA WADA ROAD"}, {"id": "r47", "name": "GARIBACHA WADA ROAD, GARIBACHA WADA ROAD"}, {"id": "r48", "name": "GARIBACHA WADA ROAD, GARIBACHA WADA ROAD"}, {"id": "r49", "name": "GARIBACHA WADA RD"}, {"id": "r50", "name": "SUBHASH ROAD KUBHARKAR PADA, MODEL ENGLISH SCHOOL, SUBHASH ROAD KUBHARKAR PADA, SUBHASH ROAD KUBHARKAR PADA"}, {"id": "r51", "name": "SUBHASH ROAD KUBHARKAR PADA, SUBHASH ROAD KUBHARKAR PADA, SUBHASH ROAD KUBHARKAR PADA"}, {"id": "r52", "name": "GANESH NAGAR ROAD"}, {"id": "r53", "name": "GANESH NAGAR ROAD, GANESH NAGAR ROAD, SHIVAJI PETH 2"}, {"id": "r54", "name": "RK ROAD, AMAR GALAXY ROAD"}, {"id": "r55", "name": "RK ROAD"}, {"id": "r56", "name": "KHANDOBA MANDIR RD"}, {"id": "r57", "name": "KUBHARKAR PADA GANESH GHAT ROAD, KUBHARKAR PADA GANESH GHAT ROAD, KUBHARKAR PADA GANESH GHAT ROAD"}]}}, "I": {"14": {"routes": [{"id": "r1", "name": "CHINCHAPADA ROAD, CHINCHAPADA ROAD GOPAL NAGAR, CHINCHAPADA ROAD"}, {"id": "r2", "name": "CHEROBA GAONDEVI MANDIR ROAD, CHINCHA PADA GAON ROAD, SAMRUDDHI PRINTER"}, {"id": "r3", "name": "100 FEET ROAD, 100 FEET ROAD, SHARDA ENGLISH SCHOOL"}, {"id": "r4", "name": "LAXMI NAGAR ROAD, SHIRDI NAGARI"}, {"id": "r5", "name": "ANMOL GARDEN RD, SHREE PATIL HOSPITAL RD"}, {"id": "r6", "name": "NANDIVALI RD, SHIRDI NAGAR ROAD, ARYA GURUKUL ROAD"}, {"id": "r7", "name": "CHINCHPADA ROAD, JAI BHAVANI ROAD"}, {"id": "r8", "name": "NANDIVALI RD, NANDIVALI TALAW RD"}, {"id": "r9", "name": "SREE NARAYAN CLASSES RD, GAGANGIRI ENGLISH SCHOOL RD"}, {"id": "r10", "name": "MHASOBA MANDIR RD, NANDEVALI TALAW RD"}, {"id": "r11", "name": "CHINCHPADA GAON ROAD, KM FITNESS CLUB"}, {"id": "r12", "name": "CHINCHPADA GAON ROAD, CHINCHPADA GAON ROAD, CHINCHPADA GAON ROAD"}, {"id": "r13", "name": "LANE NO 7, SURESH SUPER MARKET RD, CHONGYA NAGAR ROAD"}, {"id": "r14", "name": "VTC GROUND RD"}, {"id": "r15", "name": "RAMESH NASTA HOUSE RD, PADMAVATI COMPLEX RD, GANPATI MANDIR RD"}, {"id": "r16", "name": "ASHALE GAON RD, ASHALE GAON CROSS RD, LAXMIBAI BABU KADU RD"}, {"id": "r17", "name": "LAXMIBAI BABU KADU RD"}, {"id": "r18", "name": "LAXMIBAI BABU KADU CROSS RD"}, {"id": "r19", "name": "RAGUNATH NAGAR CROSS ROAD, SHREE GANESH VIDYA CROSS ROAD, ANAND VIDYALAY ROAD, SHREE GANESH VIDYA MANDIR ROAD"}, {"id": "r20", "name": "CHURCH ROAD, PANDIT NAGARI ROAD, CHURCH CROSS ROAD"}]}, "23": {"routes": [{"id": "r21", "name": "KALYAN SHILPHATA ROAD, KALYAN SHILPHATA ROAD"}, {"id": "r22", "name": "KALYAN SHILPHATA ROAD, KALYAN SHILPHATA ROAD"}, {"id": "r23", "name": "KALYAN SHILPHATA ROAD, KALYAN SHILPHATA ROAD"}, {"id": "r24", "name": "PISAVALI GAON ROAD, PISAVALI GAON ROAD"}, {"id": "r25", "name": "PISAVALI GAON ROAD, PISAVALI GAON ROAD, PISAVALI GAON ROAD, PISAVALI GAON ROAD"}, {"id": "r26", "name": "PANDURANG WADI ROAD, JAL MALHAR NAGAR RD, NARENDRA CONVENT SCHOOL ROAD"}, {"id": "r27", "name": "DESHMUKH HOMES ROAD, ADITHYA FOOD CORNER RD, NEW LORD ENGLISH HIGH SCHOOL RD"}, {"id": "r28", "name": "PISAVALI  ADIVALI GAON ROAD, PISAVALI  ADIVALI GAON ROAD"}, {"id": "r29", "name": "NETAJI NAGAR ROAD, NETAJI NAGAR ROAD"}, {"id": "r30", "name": "SAI BABA MANDIR ADIVALI RD, ANAGANWADI ROAD"}, {"id": "r31", "name": "GAYAKWAD ROAD, RAMAKANT PATIL ROAD, SUBEK GARMENT ROAD, TAMBOLI ROAD"}, {"id": "r32", "name": "SANT NIRANKARI SATSANG RD, GARAM PACHAYAT LANE, NISARG ARCADE ROAD"}, {"id": "r33", "name": "GOLAVALI GAON ROAD, JAY HANUMAN MANDIR RD, GAIKWAD ROAD"}, {"id": "r34", "name": "CHINDI MARKET ROAD, GAIKWAD ROAD, SURESH DHAM ROAD"}, {"id": "r35", "name": "DAWADI GAON ROAD, DAWADI GAON ROAD"}, {"id": "r36", "name": "DAWADI REGENCY CIECLE, TUKARAM CHOWK ROAD"}, {"id": "r37", "name": "AAI EKVEERA CHS ROAD, BAPU NAGAR ROAD"}, {"id": "r38", "name": "PIPELINE ROAD, PIPELINE ROAD"}, {"id": "r39", "name": "AMARDEEP COLONY"}, {"id": "r40", "name": "PISAVALI GAON ROAD, MORESHWAR BHOIR BUNGALOW ROAD, PISAVALI GAON ROAD"}, {"id": "r41", "name": "RPS ENGLISH HIGTH SCHOOL ROAD"}, {"id": "r42", "name": "TALAV ROAD DWARLI, TALAV ROAD DWARLI"}, {"id": "r43", "name": "DWARLI GAON ROAD, DWARLI GAON ROAD, GAULOBA COLONY ROAD"}, {"id": "r44", "name": "KOHINOOR EDEN ROAD, MOUTAIN GREENS CHS ROAD"}, {"id": "r45", "name": "ADAWALI TALAV ROAD"}, {"id": "r46", "name": "ADAWALI TALAV ROAD, GAON DEVI MANDIR ROAD"}, {"id": "r47", "name": "RAJARAM NAGAR ROAD"}, {"id": "r48", "name": "50-50 DHABA ROAD, 50-50 DHABA CROSS ROAD, ANMOL GARDEN RD"}, {"id": "r49", "name": "MALANGAD ROAD"}, {"id": "r50", "name": "MALANGAD ROAD"}, {"id": "r51", "name": "MALANGAD ROAD"}, {"id": "r52", "name": "MALANGAD ROAD"}, {"id": "r53", "name": "MALANGAD ROAD"}, {"id": "r54", "name": "MALANGAD ROAD, MALANGAD ROAD"}]}, "32": {"routes": [{"id": "r55", "name": "KHONI UMBHARLI GAON ROAD"}, {"id": "r56", "name": "DATTA MANDIR ROAD, KHONI UMBHARLI GAON ROAD"}, {"id": "r57", "name": "UMBHARLI GAON INTERNAL ROAD, UMBHARLI GAON INTERNAL ROAD"}, {"id": "r58", "name": "KHONI UMBHARLI GAON CROSS ROAD"}, {"id": "r59", "name": "KHONI UMBHARLI GAON ROAD"}, {"id": "r60", "name": "MALANGAD ROAD"}, {"id": "r61", "name": "BHAL VITHAL MANDIR ROAD, ZP ENGLISH MEDIUM SCHOOL ROAD, RADHA KRUSHNA ROAD"}, {"id": "r62", "name": "IDEAL COLLEGE ROAD, ZP ENGLISH MEDIUM SCHOOL ROAD"}, {"id": "r63", "name": "TUKARAM CHOWK ROAD, SIDDHIVINAYAK SUPER MARKET ROAD, RTP JUNIOR COLLAGE ROAD, AAI TULJA BHAWANI TEMPLE ROAD"}, {"id": "r64", "name": "DAWADI GAON ROAD"}, {"id": "r65", "name": "DAWADI GAON ROAD, DAWADI GAON TALAV ROAD"}, {"id": "r66", "name": "DAWADI GAON ROAD, DAWADI GAON CROSS ROAD"}, {"id": "r67", "name": "CHURCH CROSS ROAD, CHURCH ROAD, NEW ERA HIGH SCHOOL ROAD, KALI MATA MANDIR RD"}]}, "34": {"routes": [{"id": "r68", "name": "RAJRUSHI MAHADEV MANDIR RD"}, {"id": "r69", "name": "VASAR GAON ROAD, VASAR GAON ROAD, RAM MANDIR VASAR CROSS RD"}, {"id": "r70", "name": "VASAR GAON RD, YUMMY CAKE SHOP RD, JAY HANUMAN CRICKET GROUND"}, {"id": "r71", "name": "VASAR GAON RD, SHELAR CHOWK"}, {"id": "r72", "name": "VASAR GAON ROAD"}, {"id": "r73", "name": "POST OFFICE ROAD"}, {"id": "r74", "name": "MHASOBA MANDIR ROAD, MHASOBA MANDIR CROSS ROAD, MHASOBA MANDIR CROSS ROAD"}, {"id": "r75", "name": "MHASOBA MANDIR RD, CHURCH ROAD"}, {"id": "r76", "name": "CHURCH ROAD, CHURCH ROAD, CHURCH ROAD"}, {"id": "r77", "name": "MALANGAD ROAD"}, {"id": "r78", "name": "MALANGAD ROAD"}, {"id": "r79", "name": "MALANGAD ROAD"}, {"id": "r80", "name": "MALANGAD ROAD"}, {"id": "r81", "name": "MALANGAD ROAD"}, {"id": "r82", "name": "MALANGAD ROAD"}, {"id": "r83", "name": "DEVAL PADA ROAD"}, {"id": "r84", "name": "HANUMAN MADIR VASAR RD, HANUMAN MADIR VASAR RD, HANUMAN MADIR VASAR RD, HANUMAN MADIR VASAR RD, HANUMAN MADIR VASAR RD"}, {"id": "r85", "name": "MANERA GAON ROAD, VTC GROUND ROAD"}, {"id": "r86", "name": "MANERA GAON PAY DHUNI ROAD, MANERA GAON PAY DHUNI ROAD, GAVDEVI MANDIR ROAD"}, {"id": "r87", "name": "MANERA GAON RD, VITTHAL RUKMAI MANDIR RD, MANERA GAON CROSS ROAD"}, {"id": "r88", "name": "VASAR GAON RD, GANESH MAGAR ROAD, VASAR GAON CROSS RD"}, {"id": "r89", "name": "RAM MANDIR VASAR RD, VASAR GAON CROSS ROAD, DUTKAR NIWAS ROAD"}]}}, "J": {"6": {"routes": [{"id": "r34", "name": "PUNE LINK ROAD, UPADHYAY GALLI ROAD, NUTAN SCHOOL ROAD"}, {"id": "r35", "name": "KALYAN STATION ROAD, MANISHA GAS AGENCY, KALYAN STATION CROSS ROAD"}, {"id": "r36", "name": "PUNA LINK ROAD, JIWDANI CHAWL ROAD, CHATRAPATI SHIVAJI COLONY ROAD, NILESH SHINDE OFFICE ROAD"}, {"id": "r37", "name": "KALYAN STATION ROAD, OLD JANATA SAHAKARI BANK ROAD, OLD JANATA SAHAKARI BANK ROAD, SANGITA GAYAKWAD OFFICE GALLI ROAD"}, {"id": "r38", "name": "KALYAN STATION ROAD, SWAMI SAMARTH MATH ROAD, POTE MAIDAN ROAD"}, {"id": "r39", "name": "NEW GAYATRI HIGH SCHOOL ROAD, SHAHU GARDEN ROAD, SHANI MANDIR GALLI ROAD, DALVI APARTMENT ROAD, POTE APARTMENT ROAD"}, {"id": "r40", "name": "TISGAON ROAD, PARSHURAM WADI ROAD, KDMC J WARD OFFICE ROAD, KDMC J WARD OFFICE ROAD"}, {"id": "r41", "name": "KARAPEWADI ROAD, KARAPEWADI ROAD, RASAL GALLI ROAD, RASAL GALLI INTERNAL ROAD, GIRI BAAI VADAPAV ROAD"}, {"id": "r42", "name": "TISGAON ROAD, TISGAON ROAD, MANAGAL RAGHAV NAGAR ROAD"}, {"id": "r43", "name": "CHIKNIPADA ROAD, PARVATI MARRIAGE HALL ROAD, SHREE GANESH MANDIR ROAD, SIDHIVINAYAK HOSPITAL ROAD"}, {"id": "r44", "name": "PUNA LINK ROAD, PINKI APARTMENT ROAD, PUNA LINK ROAD, VAIBHAV PET CLINIC RD"}, {"id": "r45", "name": "MHASOBA MARKET ROAD, KARAPEWADI ROAD, KARAPEWADI ROAD"}, {"id": "r46", "name": "SIDDHARTH NAGAR SKYWALK, SHAHU GARDEN ROAD, BUDHA VIHAR ROAD"}, {"id": "r47", "name": "MURBAD ROAD"}]}, "30": {"routes": [{"id": "r19", "name": "KATEMANIVALI BRG, PUNE LINK ROAD"}, {"id": "r20", "name": "F CABIN ROAD, F CABIN ROAD"}, {"id": "r21", "name": "KALYAN BADLAPUR ROAD, KALYAN BADLAPUR ROAD"}, {"id": "r22", "name": "KALYAN BADLAPUR ROAD, KALYAN BADLAPUR ROAD"}, {"id": "r23", "name": "ASHOK NAGAR ROAD, ASHOK NAGAR INTERNAL ROAD, MASJID GALLI"}, {"id": "r24", "name": "SHIVAJI NAGAR ROAD, SHIVAJI NAGAR CROSS ROAD, BEDEKARWADI ROAD"}, {"id": "r25", "name": "MILIND NAGAR ROAD, MILIND NAGAR ROAD"}, {"id": "r26", "name": "DURGA MATA MANDIR ROAD, LAXMI GENERAL RD, MILIND NAGAR CHURCH ROAD"}, {"id": "r27", "name": "MASJID GALLI  ROAD, SAI BABA MANDIR ROAD, BUDHA VIHAR ROAD"}, {"id": "r28", "name": "KOLSEWADI MARKET ROAD, POST OFFICE ROAD"}, {"id": "r29", "name": "KOLSEWADI MARKET ROAD, KAALI MATA MANDIR ROAD, VAISHNAVI HOLIDAYS ROAD, SHREE SWAMI SAMARTH ROAD, XEROX GALLI  ROAD"}, {"id": "r30", "name": "KOLSEWADI MARKET ROAD, DURGA MATA MANDIR ROAD, AKASHDEEP BULDING RAOD, SHREE GANESH BUILDING ROAD, SURVE GALLI ROAD"}, {"id": "r31", "name": "MAHAPOR KALYANI PATIL ROAD, NITIN NIKAM OFFICE ROAD, JAY SHANKAR GYM GALLI ROAD, NIKAM MADAM OFFICE GALLI ROAD, SAHAYOG APARTMENT ROAD"}, {"id": "r32", "name": "GANESH VIDYA MANDIR SCHOOL ROAD, DNYANMANDIR HIGH SCHOOL ROAD, ROYAL GARDEN ROAD"}, {"id": "r33", "name": "KOLSEWADI MARKET ROAD, MUKESH AUTO SERVICE RD, LAXMI BAUG ROAD, LAXMI BAUG ROAD"}]}, "35": {"routes": [{"id": "r1", "name": "90 FOOT ROAD, 90 FOOT ROAD"}, {"id": "r2", "name": "90 FOOT ROAD, 90 FOOT ROAD"}, {"id": "r3", "name": "KALYAN SHILPHATA ROAD, KALYAN SHILPHATA ROAD"}, {"id": "r4", "name": "KALYAN SHILPHATA ROAD, KALYAN SHILPHATA ROAD"}, {"id": "r5", "name": "KALYAN SHILPHATA ROAD, KALYAN SHILPHATA ROAD"}, {"id": "r6", "name": "KALYAN SHILPHATA ROAD, ABDUL HAMID TIMBER MART ROAD, KALYAN SHILPHATA CROSS ROAD"}, {"id": "r7", "name": "PUNA LINK ROAD, PUNA LINK ROAD"}, {"id": "r8", "name": "RAM NAGAR, RAM NAGAR"}, {"id": "r9", "name": "ASHRAM ROAD, ASHRAM CROSS ROAD, HOMI JAHANGIR SCHOOL RD, HOMI JAHANGIR SCHOOL RD, ASHRAM CROSS RD"}, {"id": "r10", "name": "CHAUDHARY WADI ROAD, TILAK POLICE CHOWKI ROAD, HANUMAN NAGAR ROAD"}, {"id": "r11", "name": "CHAUDHARY WADI RD, CHAUDHARY WADI RD"}, {"id": "r12", "name": "NEW KALYAN ROAD, NEW KALYAN ROAD"}, {"id": "r13", "name": "LOKGRAM ROAD, LOKGRAM ROAD"}, {"id": "r14", "name": "MALANG ROAD, MALANG ROAD"}, {"id": "r15", "name": "MANGO GARDEN ROAD, LOKGRAM INTERNAL ROAD, LOKGRAM PLAY GROUND"}, {"id": "r16", "name": "LOKGRAM ROAD, LOKGRAM ROAD"}, {"id": "r17", "name": "LOK DHARA ROAD, LOK DHARA ROAD"}, {"id": "r18", "name": "LOK DHARA ROAD, LOKDHARA PHASE 1 ROAD"}]}}};
     
-    rawData.forEach(row => {
-        const ward = row["WARD"];
-        if (!ward) return;
-        
-        if (!dataMap[ward]) {
-            dataMap[ward] = [];
-        }
-        dataMap[ward].push(row);
-    });
-    
-    const dateSelect = document.getElementById('dateSelect');
-    const wardSelect = document.getElementById('wardSelect');
-    const unitGroup = document.getElementById('unitGroup');
-    const unitSelect = document.getElementById('unitSelect');
-    const routesContainer = document.getElementById('routesContainer');
-    const checkboxesList = document.getElementById('checkboxesList');
-    const messageOutput = document.getElementById('messageOutput');
-    const copyBtn = document.getElementById('copyBtn');
-    const copyFeedback = document.getElementById('copyFeedback');
-    
-    let currentRowData = null;
-    
-    // Auto-set Date to Today
-    const today = new Date().toISOString().split('T')[0];
-    dateSelect.value = today;
-    dateSelect.addEventListener('change', generateMessage);
-    
-    const wards = Object.keys(dataMap).sort();
-    wards.forEach(ward => {
-        const option = document.createElement('option');
-        option.value = ward;
-        option.textContent = ward;
-        wardSelect.appendChild(option);
-    });
-    
-    wardSelect.addEventListener('change', function() {
-        const selectedWard = this.value;
-        unitSelect.innerHTML = '<option value="">-- Unit Select Kara --</option>';
+    const dateInput = document.getElementById('deploy-date');
+    const wardSelect = document.getElementById('ward');
+    const unitSelect = document.getElementById('unit');
+    const routesContainer = document.getElementById('routes-container');
+    const routesList = document.getElementById('routes-list');
+    const messageBox = document.getElementById('message');
+
+    window.onload = function() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        dateInput.value = yyyy + "-" + mm + "-" + dd;
+
+        const wards = Object.keys(data).sort();
+        wards.forEach(ward => {
+            let option = document.createElement('option');
+            option.value = ward;
+            option.textContent = "Ward - " + ward;
+            wardSelect.appendChild(option);
+        });
+    };
+
+    function populateUnits() {
+        const selectedWard = wardSelect.value;
+        unitSelect.innerHTML = '<option value="">-- Select Unit --</option>';
         routesContainer.style.display = 'none';
-        messageOutput.value = '';
-        currentRowData = null;
+        messageBox.value = '';
         
         if (selectedWard) {
-            const units = dataMap[selectedWard];
-            units.forEach((unitData, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                option.textContent = unitData["UNIT"];
+            unitSelect.disabled = false;
+            // Sorting units numerically
+            const units = Object.keys(data[selectedWard]).sort((a, b) => parseInt(a) - parseInt(b));
+            units.forEach(unit => {
+                let option = document.createElement('option');
+                option.value = unit;
+                option.textContent = "Unit - " + unit;
                 unitSelect.appendChild(option);
             });
-            unitGroup.style.display = 'block';
         } else {
-            unitGroup.style.display = 'none';
+            unitSelect.disabled = true;
         }
-    });
-    
-    unitSelect.addEventListener('change', function() {
-        const selectedIndex = this.value;
+        updateMessage();
+    }
+
+    function populateRoutes() {
         const selectedWard = wardSelect.value;
-        checkboxesList.innerHTML = '';
-        messageOutput.value = '';
+        const selectedUnit = unitSelect.value;
+        routesList.innerHTML = '';
         
-        if (selectedIndex !== "") {
-            currentRowData = dataMap[selectedWard][selectedIndex];
-            
-            const routeKeys = Object.keys(currentRowData).filter(key => key.startsWith('Route_') && currentRowData[key] !== "");
-            
-            // Sort keys to maintain correct order (Route_1, Route_2, etc.)
-            routeKeys.sort((a, b) => {
-                return parseInt(a.split('_')[1]) - parseInt(b.split('_')[1]);
+        if (selectedWard && selectedUnit) {
+            routesContainer.style.display = 'block';
+            // Sort routes numerically by extracting number from id (e.g. "r1" -> 1)
+            const routes = data[selectedWard][selectedUnit].routes.sort((a, b) => {
+                return parseInt(a.id.substring(1)) - parseInt(b.id.substring(1));
             });
             
-            if (routeKeys.length > 0) {
-                routeKeys.forEach(key => {
-                    const routeName = currentRowData[key];
-                    if (routeName.trim() !== "") {
-                        const routeNum = key.split('_')[1]; 
-                        const displayLabel = `R${routeNum} - ${routeName}`; 
-                        
-                        const div = document.createElement('div');
-                        div.className = 'checkbox-item';
-                        
-                        const checkbox = document.createElement('input');
-                        checkbox.type = 'checkbox';
-                        checkbox.id = key;
-                        checkbox.value = routeName;
-                        checkbox.checked = true;
-                        
-                        checkbox.addEventListener('change', generateMessage);
-                        
-                        const label = document.createElement('label');
-                        label.htmlFor = key;
-                        label.textContent = displayLabel;
-                        
-                        div.appendChild(checkbox);
-                        div.appendChild(label);
-                        checkboxesList.appendChild(div);
-                    }
-                });
+            routes.forEach((routeObj, idx) => {
+                let div = document.createElement('div');
+                div.className = 'checkbox-item';
                 
-                routesContainer.style.display = 'block';
-                generateMessage();
-            } else {
-                routesContainer.style.display = 'none';
-            }
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = 'route_' + idx;
+                checkbox.value = routeObj.id + " - " + routeObj.name;
+                checkbox.onchange = updateMessage;
+                
+                let label = document.createElement('label');
+                label.htmlFor = 'route_' + idx;
+                label.innerHTML = "<span class='route-id'>" + routeObj.id + "</span> - " + routeObj.name;
+                
+                div.appendChild(checkbox);
+                div.appendChild(label);
+                routesList.appendChild(div);
+            });
         } else {
             routesContainer.style.display = 'none';
         }
-    });
-    
-    function generateMessage() {
-        if (!currentRowData) return;
+        updateMessage();
+    }
+
+    function updateMessage() {
+        const selectedWard = wardSelect.value;
+        const selectedUnit = unitSelect.value;
+        const selectedDateVal = dateInput.value;
         
-        const ward = currentRowData["WARD"] || "";
-        const unit = currentRowData["UNIT"] || "";
-        const eWard = currentRowData["E-WARD"] || "";
-        
-        // Use selected date or fallback to today
-        let d = new Date();
-        if (dateSelect.value) {
-            d = new Date(dateSelect.value);
+        if (!selectedWard || !selectedUnit) {
+            messageBox.value = '';
+            return;
         }
-        const formattedDate = d.getDate().toString().padStart(2, '0') + '/' + 
-                              (d.getMonth() + 1).toString().padStart(2, '0') + '/' + 
-                              d.getFullYear();
+
+        const checkboxes = routesList.querySelectorAll('input[type="checkbox"]:checked');
+        let selectedRoutes = [];
+        checkboxes.forEach(cb => selectedRoutes.push(cb.value));
+
+        let dateString = "";
+        if(selectedDateVal) {
+            const dateObj = new Date(selectedDateVal);
+            dateString = dateObj.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+        }
+
+        let msg = "*🏢 SUMEET ELKO*\n";
+        msg += "*🧹 Sweeping Deployment*\n\n";
+        msg += "📅 Date: " + dateString + "\n";
+        msg += "📍 *Ward:* " + selectedWard + "\n";
+        msg += "📌 *Unit:* " + selectedUnit + "\n";
         
-        let message = `*Sumeet Elko*\n`;
-        message += `*Today Sweeping Deployment*\n`;
-        message += `===============================\n`;
-        message += `*Date:* ${formattedDate}\n`;
-        message += `*Ward:* ${ward}\n`;
-        message += `*Unit:* ${unit}\n`;
-        if (eWard) message += `*E-Ward:* ${eWard}\n`;
-        message += `===============================\n`;
-        message += `*Sweeping Routes:*\n`;
+        msg += "\n*🛣️ Deployed Routes:*\n";
         
-        const checkedBoxes = document.querySelectorAll('#checkboxesList input[type="checkbox"]:checked');
-        
-        if (checkedBoxes.length > 0) {
-            let counter = 1;
-            checkedBoxes.forEach(box => {
-                const routeNum = box.id.split('_')[1];
-                message += `${counter}. R${routeNum}: ${box.value}\n`;
-                counter++;
+        if (selectedRoutes.length > 0) {
+            selectedRoutes.forEach((routeStr, index) => {
+                msg += (index + 1) + ". " + routeStr + "\n";
             });
         } else {
-            message += `- No routes selected -\n`;
+            msg += "(No routes selected yet)\n";
         }
-        
-        messageOutput.value = message;
-    }
-    
-    copyBtn.addEventListener('click', function() {
-        if (messageOutput.value.trim() !== "") {
-            messageOutput.select();
-            messageOutput.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(messageOutput.value).then(() => {
-                copyFeedback.style.display = 'block';
-                setTimeout(() => {
-                    copyFeedback.style.display = 'none';
-                }, 3000);
-            });
-        }
-    });
-</script>
 
+        messageBox.value = msg;
+    }
+
+    function copyMessage() {
+        if(!messageBox.value) {
+            alert("Copy karnyapurvi details select kara!");
+            return;
+        }
+        messageBox.select();
+        document.execCommand("copy");
+        
+        const copyBtn = document.querySelector('.btn-copy');
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check"></i> Message Copied!';
+        copyBtn.style.backgroundColor = '#1e7e34';
+        
+        setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+            copyBtn.style.backgroundColor = '#28a745';
+        }, 2000);
+    }
+</script>
 </body>
 </html>
